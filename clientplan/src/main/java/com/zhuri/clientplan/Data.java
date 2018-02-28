@@ -1,12 +1,12 @@
 package com.zhuri.clientplan;
 
 public class Data {
-    String id;
-    String text;
-    String start_date;
-    String duration;
-    String progress;
-    String open;
+    private String id;
+    private String text;
+    private String start_date;
+    private String duration;
+    private String progress;
+    private String open;
 
     public String getId() {
         return id;

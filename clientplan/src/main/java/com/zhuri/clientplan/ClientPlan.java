@@ -3,9 +3,9 @@ package com.zhuri.clientplan;
 import java.util.ArrayList;
 
 public class ClientPlan {
-    int id;
-    ArrayList<Data> data;
-    ArrayList<Link> links;
+    private int id;
+    private ArrayList<Data> data;
+    private ArrayList<Link> links;
 
     public int getId() {
         return id;

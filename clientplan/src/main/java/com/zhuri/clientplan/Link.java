@@ -1,10 +1,10 @@
 package com.zhuri.clientplan;
 
 public class Link {
-    String id;
-    String source;
-    String target;
-    String type;
+    private String id;
+    private String source;
+    private String target;
+    private String type;
 
     public String getId() {
         return id;
