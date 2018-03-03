@@ -5,6 +5,9 @@ public class Link {
     private String source;
     private String target;
     private String type;
+    private String lag;
+    private String readonly;
+    private String editable;
 
     public String getId() {
         return id;
@@ -36,5 +39,29 @@ public class Link {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getLag() {
+        return lag;
+    }
+
+    public void setLag(String lag) {
+        this.lag = lag;
+    }
+
+    public String getReadonly() {
+        return readonly;
+    }
+
+    public void setReadonly(String readonly) {
+        this.readonly = readonly;
+    }
+
+    public String getEditable() {
+        return editable;
+    }
+
+    public void setEditable(String editable) {
+        this.editable = editable;
     }
 }

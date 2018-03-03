@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class ClientPlan {
     private int id;
-    private ArrayList<Data> data;
+    private ArrayList<Task> tasks;
     private ArrayList<Link> links;
 
     public int getId() {
@@ -15,12 +15,12 @@ public class ClientPlan {
         this.id = id;
     }
 
-    public ArrayList<Data> getData() {
-        return data;
+    public ArrayList<Task> getTasks() {
+        return tasks;
     }
 
-    public void setData(ArrayList<Data> data) {
-        this.data = data;
+    public void setTasks(ArrayList<Task> tasks) {
+        this.tasks = tasks;
     }
 
     public ArrayList<Link> getLinks() {
