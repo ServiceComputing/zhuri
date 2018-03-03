@@ -8,7 +8,24 @@ import java.util.List;
 @Service
 public class ClientPlanService {
     //for test
-    private List<ClientPlan> clientPlans = new ArrayList<ClientPlan>();
+    private List<ClientPlan> clientPlans = new ArrayList<>();
+    public ClientPlanService() {
+        ArrayList<Task> tasks = new ArrayList<>();
+        ArrayList<Link> links = new ArrayList<>();
+
+        tasks.add(new Task());
+        tasks.add(new Task());
+        tasks.add(new Task());
+        links.add(new Link());
+        links.add(new Link());
+
+        ClientPlan clientPlan = new ClientPlan();
+        clientPlan.setId(0);
+        clientPlan.setTasks(tasks);
+        clientPlan.setLinks(links);
+
+        clientPlans.add(clientPlan);
+    }
 
     public List<ClientPlan> getClientPlansByUserId(int userId) {
         return clientPlans;
