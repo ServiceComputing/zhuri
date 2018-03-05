@@ -18,7 +18,7 @@ public class ClientPlanService {
         tasks.add(new Task());
         links.add(new Link());
         links.add(new Link());
-
+        tasks.get(0).setId("0");
         ClientPlan clientPlan = new ClientPlan();
         clientPlan.setId(0);
         clientPlan.setTasks(tasks);
