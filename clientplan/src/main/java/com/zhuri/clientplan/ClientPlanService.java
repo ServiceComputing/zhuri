@@ -31,6 +31,15 @@ public class ClientPlanService {
         return clientPlans;
     }
 
+    public ClientPlan getClientPlansByClientPlanId(int ClientPlanId) {
+        for(ClientPlan cp: clientPlans) {
+            if(cp.getId() == ClientPlanId) {
+                return cp;
+            }
+        }
+        return null;
+    }
+
     public boolean addClientPlan(ClientPlan clientPlan) {
         clientPlan.setId(clientPlans.size());
         clientPlans.add(clientPlan);

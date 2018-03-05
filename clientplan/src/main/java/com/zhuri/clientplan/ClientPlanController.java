@@ -1,10 +1,7 @@
 package com.zhuri.clientplan;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,6 +13,11 @@ public class ClientPlanController {
     @RequestMapping(value = "/getClientPlansByUserId", method = RequestMethod.GET)
     public List<ClientPlan> getClientPlansByUserId() {
         return clientPlanService.getClientPlansByUserId(0);
+    }
+
+    @RequestMapping(value = "/getClientPlansByClientPlanId", method = RequestMethod.GET)
+    public ClientPlan getClientPlansByClientPlanId(@RequestParam int ClientPlanId) {
+        return clientPlanService.getClientPlansByClientPlanId(ClientPlanId);
     }
 
     @RequestMapping(value = "/addClientPlan", method = RequestMethod.POST)
