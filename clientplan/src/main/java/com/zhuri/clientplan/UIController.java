@@ -8,8 +8,8 @@ import javax.xml.ws.RequestWrapper;
 
 @Controller
 public class UIController {
-    @RequestMapping(value = "/planModify", method = RequestMethod.GET)
-    public String planModify() {
-        return "planModify";
+    @RequestMapping(value = "/checkPlan", method = RequestMethod.GET)
+    public String checkPlan() {
+        return "checkPlan";
     }
 }
