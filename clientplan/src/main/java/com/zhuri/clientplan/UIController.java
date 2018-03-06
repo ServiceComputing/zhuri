@@ -12,4 +12,7 @@ public class UIController {
     public String checkPlan() {
         return "checkPlan";
     }
+
+    @RequestMapping(value = "/planModify", method = RequestMethod.GET)
+    public String planModify () { return "planModify"; }
 }
