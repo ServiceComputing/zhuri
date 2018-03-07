@@ -1,11 +1,16 @@
 package com.zhuri.clientplan;
 
-import java.util.ArrayList;
+import java.sql.Timestamp;
+import java.util.List;
 
 public class ClientPlan {
     private int id;
-    private ArrayList<Task> tasks;
-    private ArrayList<Link> links;
+    private String text;
+    private Timestamp create_date;
+    private int creator_id;
+    private String status;
+    private String tasks;
+    private String links;
 
     public int getId() {
         return id;
@@ -15,19 +20,52 @@ public class ClientPlan {
         this.id = id;
     }
 
-    public ArrayList<Task> getTasks() {
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public Timestamp getCreate_date() {
+        return create_date;
+    }
+
+    public void setCreate_date(Timestamp create_date) {
+        this.create_date = create_date;
+    }
+
+    public int getCreator_id() {
+        return creator_id;
+    }
+
+    public void setCreator_id(int creator_id) {
+        this.creator_id = creator_id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getTasks() {
         return tasks;
     }
 
-    public void setTasks(ArrayList<Task> tasks) {
-        this.tasks = tasks;
-    }
-
-    public ArrayList<Link> getLinks() {
+    public String getLinks() {
         return links;
     }
 
-    public void setLinks(ArrayList<Link> links) {
+    public void setTasks(String tasks) {
+        this.tasks = tasks;
+    }
+
+    public void setLinks(String links) {
         this.links = links;
     }
+
 }

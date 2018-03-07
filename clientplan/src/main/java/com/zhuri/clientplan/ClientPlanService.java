@@ -1,59 +1,33 @@
 package com.zhuri.clientplan;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ClientPlanService {
-    //for test
-    private List<ClientPlan> clientPlans = new ArrayList<>();
-    public ClientPlanService() {
-        ArrayList<Task> tasks = new ArrayList<>();
-        ArrayList<Link> links = new ArrayList<>();
-
-        tasks.add(new Task());
-        tasks.add(new Task());
-        tasks.add(new Task());
-        links.add(new Link());
-        links.add(new Link());
-        tasks.get(0).setId("0");
-        ClientPlan clientPlan = new ClientPlan();
-        clientPlan.setId(0);
-        clientPlan.setTasks(tasks);
-        clientPlan.setLinks(links);
-
-        clientPlans.add(clientPlan);
-    }
+    @Autowired
+    ClientPlanMapper clientPlanMapper;
 
     public List<ClientPlan> getClientPlansByUserId(int userId) {
-        return clientPlans;
+        return clientPlanMapper.getClientPlansByUserId(userId);
     }
 
-    public ClientPlan getClientPlansByClientPlanId(int ClientPlanId) {
-        for(ClientPlan cp: clientPlans) {
-            if(cp.getId() == ClientPlanId) {
-                return cp;
-            }
-        }
-        return null;
+    public ClientPlan getClientPlansByClientPlanId(int clientPlanId) {
+        ClientPlan clientPlan = clientPlanMapper.getClientPlansByClientPlanId(clientPlanId);
+        //clientPlan.setTasks(clientPlanMapper.getTasksByClientPlanId(clientPlanId));
+        //clientPlan.setLinks(clientPlanMapper.getLinksByClientPlanId(clientPlanId));
+        return clientPlan;
     }
 
-    public boolean addClientPlan(ClientPlan clientPlan) {
-        clientPlan.setId(clientPlans.size());
-        clientPlans.add(clientPlan);
-        return true;
+    public int addClientPlan(ClientPlan clientPlan) {
+        return clientPlanMapper.addClientPlan(clientPlan);
     }
 
-    public boolean updateClientPlan(ClientPlan clientPlan) {
-        for(ClientPlan cp: clientPlans) {
-            if(cp.getId()==clientPlan.getId()) {
-                clientPlans.remove(cp);
-                clientPlans.add(clientPlan);
-                return true;
-            }
-        }
-        return false;
+    public int updateClientPlanTasksAndLinks(ClientPlan clientPlan) {
+        return clientPlanMapper.updateClientPlanTasksAndLinks(clientPlan);
     }
 }
