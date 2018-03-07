@@ -15,6 +15,9 @@ public interface ClientPlanMapper {
     @Insert("INSERT INTO client_plan(text,create_date,creator_id,status,data,links) VALUES(#{text},#{create_date},#{creator_id},#{status},#{data},#{links})")
     int addClientPlan(ClientPlan clientPlan);
 
+    @Update("UPDATE client_plan SET text=#{text} WHERE id=#{id}")
+    int updateClientPlanText(ClientPlan clientPlan);
+
     @Update("UPDATE client_plan SET data=#{data}, links=#{links} WHERE id=#{id}")
     int updateClientPlanTasksAndLinks(ClientPlan clientPlan);
 }

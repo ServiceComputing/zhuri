@@ -27,6 +27,10 @@ public class ClientPlanService {
         return clientPlanMapper.addClientPlan(clientPlan);
     }
 
+    public int updateClientPlanText(ClientPlan clientPlan) {
+        return clientPlanMapper.updateClientPlanText(clientPlan);
+    }
+
     public int updateClientPlanTasksAndLinks(ClientPlan clientPlan) {
         return clientPlanMapper.updateClientPlanTasksAndLinks(clientPlan);
     }

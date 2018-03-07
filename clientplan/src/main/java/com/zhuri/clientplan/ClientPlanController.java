@@ -34,6 +34,11 @@ public class ClientPlanController {
         return clientPlanService.addClientPlan(clientPlan);
     }
 
+    @RequestMapping(value = "/updateClientPlanText", method = RequestMethod.POST)
+    public int updateClientPlanText(ClientPlan clientPlan) {
+        return clientPlanService.updateClientPlanText(clientPlan);
+    }
+
     @RequestMapping(value = "/updateClientPlanTasksAndLinks", method = RequestMethod.POST)
     public int updateClientPlanTasksAndLinks(ClientPlan clientPlan) {
         return clientPlanService.updateClientPlanTasksAndLinks(clientPlan);
