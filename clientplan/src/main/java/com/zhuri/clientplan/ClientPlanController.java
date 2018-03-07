@@ -23,9 +23,9 @@ public class ClientPlanController {
 
     @RequestMapping(value = "/addClientPlan", method = RequestMethod.POST)
     public int addClientPlan(ClientPlan clientPlan) {
-        clientPlan.setTasks(clientPlan.getTasks().replace("\n",""));
-        clientPlan.setTasks(clientPlan.getTasks().replace(" ",""));
-        clientPlan.setTasks(clientPlan.getTasks().replace("\t",""));
+        clientPlan.setData(clientPlan.getLinks().replace("\n",""));
+        clientPlan.setData(clientPlan.getLinks().replace(" ",""));
+        clientPlan.setData(clientPlan.getLinks().replace("\t",""));
         clientPlan.setLinks(clientPlan.getLinks().replace("\n",""));
         clientPlan.setLinks(clientPlan.getLinks().replace(" ",""));
         clientPlan.setLinks(clientPlan.getLinks().replace("\t",""));

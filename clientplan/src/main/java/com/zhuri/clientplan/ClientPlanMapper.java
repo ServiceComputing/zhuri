@@ -12,9 +12,9 @@ public interface ClientPlanMapper {
     @Select("SELECT * FROM client_plan WHERE id=#{clientPlanId}")
     ClientPlan getClientPlansByClientPlanId(int clientPlanId);
 
-    @Insert("INSERT INTO client_plan(text,create_date,creator_id,status,tasks,links) VALUES(#{text},#{create_date},#{creator_id},#{status},#{tasks},#{links})")
+    @Insert("INSERT INTO client_plan(text,create_date,creator_id,status,data,links) VALUES(#{text},#{create_date},#{creator_id},#{status},#{data},#{links})")
     int addClientPlan(ClientPlan clientPlan);
 
-    @Update("UPDATE client_plan SET tasks=#{tasks}, links=#{links} WHERE id=#{id}")
+    @Update("UPDATE client_plan SET data=#{data}, links=#{links} WHERE id=#{id}")
     int updateClientPlanTasksAndLinks(ClientPlan clientPlan);
 }

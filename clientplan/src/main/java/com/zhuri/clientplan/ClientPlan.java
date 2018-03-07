@@ -9,7 +9,7 @@ public class ClientPlan {
     private Timestamp create_date;
     private int creator_id;
     private String status;
-    private String tasks;
+    private String data;
     private String links;
 
     public int getId() {
@@ -52,20 +52,19 @@ public class ClientPlan {
         this.status = status;
     }
 
-    public String getTasks() {
-        return tasks;
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 
     public String getLinks() {
         return links;
     }
 
-    public void setTasks(String tasks) {
-        this.tasks = tasks;
-    }
-
     public void setLinks(String links) {
         this.links = links;
     }
-
 }
