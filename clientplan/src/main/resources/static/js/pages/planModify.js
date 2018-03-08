@@ -52,7 +52,16 @@ var demo_tasks = {
     ]
 };
 
-function init_Gantt ()
+var add_flag = 0;
+
+function reset_Gantt_sizes ()
+{
+    $(".main").css("height", $(".sidebar").height() - 1);
+    $("#gantt").css("height", $(".main").height() - $(".breadcrumb").height() - 24);
+    gantt.setSizes();
+}
+
+function init_Gantt (gantt_data)
 {
     gantt.config.scale_unit = "month";
     gantt.config.date_scale = "%F, %Y";
@@ -69,12 +78,110 @@ function init_Gantt ()
             return "gantt_selected";
     };
     gantt.init("gantt");
-    gantt.parse(demo_tasks);
+    gantt.parse(gantt_data);
+    reset_Gantt_sizes();
 }
 
 function main ()
 {
-    init_Gantt();
+    $.ajax (
+        {
+            type: "GET",
+            url: "/getClientPlansByClientPlanId",
+            data: { "clientPlanId": 3 },
+            success: function (receive_data)
+            {
+                console.log(receive_data);
+                var gantt_data = {};
+                gantt_data["links"] = JSON.parse(receive_data["links"]);
+                gantt_data["data"] = JSON.parse(receive_data["data"]);
+                console.log(gantt_data);
+                init_Gantt(gantt_data);
+            }
+        }
+    );
+    // var formData = new FormData();
+    // formData.append("text", "test_add");
+    // formData.append("createDate", new Date());
+    // formData.append("data", JSON.stringify(demo_tasks["data"]));
+    // formData.append("links", JSON.stringify(demo_tasks["links"]));
+    // $.ajax (
+    //     {
+    //         type: "POST",
+    //         url: "/addClientPlan",
+    //         data: formData,
+    //         contentType: false,
+    //         processData: false,
+    //         success: function (data) 
+    //         {
+    //             console.log(data);
+    //             console.log("success");
+    //         }
+    //     }
+    // );
 }
+
+$("#btnSave").click(function ()
+{
+    if (add_flag == 0)
+    {
+        var formData = new FormData();
+        var demo_tasks = gantt.serialize();
+        console.log(demo_tasks);
+        formData.append("text", "test_add");
+        formData.append("createDate", new Date());
+        formData.append("data", JSON.stringify(demo_tasks["data"]));
+        formData.append("links", JSON.stringify(demo_tasks["links"]));
+        formData.append("id", 3);
+        $.ajax(
+            {
+                type: "POST",
+                url: "/updateClientPlanTasksAndLinks",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    console.log(data);
+                    console.log("success");
+                    alert("Success!");
+                    window.location.href = '/checkPlan';
+                },
+                error: function (data) {
+                    console.log(data);
+                    alert("Error in modifying!");
+                }
+            }
+        );
+    }
+    else
+    {
+        var formData = new FormData();
+        formData.append("text", "test_add");
+        formData.append("createDate", new Date());
+        formData.append("data", JSON.stringify(demo_tasks["data"]));
+        formData.append("links", JSON.stringify(demo_tasks["links"]));
+        $.ajax (
+            {
+                type: "POST",
+                url: "/addClientPlan",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) 
+                {
+                    console.log(data);
+                    console.log("success");
+                }
+            }
+        );
+    }
+   
+});
+
+// $("#btnNew").click(function ()
+// {
+//     gantt.clearAll();
+//     add_flag = 1;
+// });
 
 main();

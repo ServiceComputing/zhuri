@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -47,7 +46,7 @@
 
 -->
 
-<body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
+<body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden brand-minimized">
 	<header class="app-header navbar">
 		<button class="navbar-toggler mobile-sidebar-toggler d-lg-none mr-auto" type="button">
 			<span class="navbar-toggler-icon"></span>
@@ -141,21 +140,6 @@
 	<div class="app-body">
 		<div class="sidebar">
 			<nav class="sidebar-nav">
-				<ul class="nav">
-					<li class="nav-item">
-						<a class="nav-link" href="checkPlan.html">
-							<i class="icon-speedometer"></i> Dashboard
-							<span class="badge badge-primary">NEW</span>
-						</a>
-					</li>
-					<li class="nav-title">
-						功能
-					</li>
-					<li class="nav-item">
-						<a href="#" class="nav-link">
-							<i class="icon-drop"></i>修改计划</a>
-					</li>
-				</ul>
 			</nav>
 			<button class="sidebar-minimizer brand-minimizer" type="button"></button>
 		</div>
@@ -166,23 +150,15 @@
 			<!-- Breadcrumb -->
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item">Home</li>
-				<li class="breadcrumb-item">
-					<a href="#">Admin</a>
-				</li>
 				<li class="breadcrumb-item active">Dashboard</li>
 
 				<!-- Breadcrumb Menu-->
-				<li class="breadcrumb-menu d-md-down-none">
+				<!-- <li class="breadcrumb-menu d-md-down-none">
 					<div class="btn-group" role="group" aria-label="Button group">
-						<a class="btn" href="#">
-							<i class="icon-speech"></i>
-						</a>
-						<a class="btn" href="./">
-							<i class="icon-graph"></i> &nbsp;Dashboard</a>
 						<a class="btn" href="#">
 							<i class="icon-settings"></i> &nbsp;Settings</a>
 					</div>
-				</li>
+				</li> -->
 			</ol>
 
 			<div class="container-fluid">
@@ -199,6 +175,7 @@
 											<tr>
 												<th>ID</th>
 												<th>状态</th>
+												<th>操作</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -553,6 +530,7 @@
 
 	<script th:src="@{/js/coreUI/app.js}"></script>
 	<script th:src="@{/js/pages/checkPlan.js}"></script>
+	<script th:src="@{/js/common/commonSettings.js}"></script>
 
 </body>
 

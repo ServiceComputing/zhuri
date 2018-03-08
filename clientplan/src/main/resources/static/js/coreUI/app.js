@@ -68,6 +68,10 @@ $(document).ready(function ($) {
 			timesRun += 1;
 			if (timesRun === 5) {
 				clearInterval(interval);
+				if (typeof reset_Gantt_sizes == 'function')
+				{
+					reset_Gantt_sizes();
+				}
 			}
 			window.dispatchEvent(new Event('resize'));
 		}, 62.5);
