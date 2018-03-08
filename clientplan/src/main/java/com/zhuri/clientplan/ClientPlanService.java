@@ -1,5 +1,6 @@
 package com.zhuri.clientplan;
 
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,8 +13,13 @@ public class ClientPlanService {
     @Autowired
     ClientPlanMapper clientPlanMapper;
 
-    public List<ClientPlan> getClientPlansByUserId(int userId) {
-        return clientPlanMapper.getClientPlansByUserId(userId);
+    public PageBean<ClientPlan> getClientPlansByUserId(int userId, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<ClientPlan> allRows = clientPlanMapper.getClientPlansByUserId(userId);
+        int total = clientPlanMapper.countClientPlansByUserId(userId);            //总记录数
+        PageBean<ClientPlan> pageData = new PageBean<>(pageNum, pageSize, total);
+        pageData.setRows(allRows);
+        return pageData;
     }
 
     public ClientPlan getClientPlansByClientPlanId(int clientPlanId) {

@@ -9,6 +9,9 @@ public interface ClientPlanMapper {
     @Select("SELECT id,text,create_date,creator_id,status FROM client_plan WHERE creator_id=#{userId}")
     List<ClientPlan> getClientPlansByUserId(int userId);
 
+    @Select("SELECT COUNT(*) FROM client_plan WHERE creator_id=#{userId}")
+    int countClientPlansByUserId(int userId);
+
     @Select("SELECT * FROM client_plan WHERE id=#{clientPlanId}")
     ClientPlan getClientPlansByClientPlanId(int clientPlanId);
 

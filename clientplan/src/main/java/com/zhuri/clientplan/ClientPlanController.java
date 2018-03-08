@@ -12,8 +12,8 @@ public class ClientPlanController {
     ClientPlanService clientPlanService;
 
     @RequestMapping(value = "/getClientPlansByUserId", method = RequestMethod.GET)
-    public List<ClientPlan> getClientPlansByUserId() {
-        return clientPlanService.getClientPlansByUserId(1);
+    public PageBean<ClientPlan> getClientPlansByUserId( int pageNum, int pageSize) {
+        return clientPlanService.getClientPlansByUserId(1,pageNum, pageSize);
     }
 
     @RequestMapping(value = "/getClientPlansByClientPlanId", method = RequestMethod.GET)
