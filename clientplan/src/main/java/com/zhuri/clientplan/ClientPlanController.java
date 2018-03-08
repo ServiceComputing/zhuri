@@ -2,6 +2,7 @@ package com.zhuri.clientplan;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -13,9 +14,19 @@ public class ClientPlanController {
     ClientPlanService clientPlanService;
 
     @RequestMapping(value = "/getClientPlansByUserId", method = RequestMethod.GET)
-    public PageBean<ClientPlan> getClientPlansByUserId( int pageNum, int pageSize) {
-        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication() .getPrincipal();
+    public PageBean<ClientPlan> getClientPlansByUserId( int pageNum, int pageSize,
+                                                            SecurityContextHolderAwareRequestWrapper request) {
+        CustomUserDetails userDetails = (CustomUserDetails) request.getUserPrincipal();
         return clientPlanService.getClientPlansByUserId(userDetails.getId(),pageNum, pageSize);
+        /*if(request.isUserInRole("ROLE_MANAGER")) {
+            return clientPlanService.getClientPlans(pageNum, pageSize);
+        } else if(request.isUserInRole("ROLE_CLIENT")){
+            CustomUserDetails userDetails = (CustomUserDetails)request.getUserPrincipal();
+            //System.out.println(userDetails.getUsername());
+            return clientPlanService.getClientPlansByUserId(userDetails.getId(),pageNum, pageSize);
+        } else {
+            return null;
+        }*/
     }
 
     @RequestMapping(value = "/getClientPlansByClientPlanId", method = RequestMethod.GET)
@@ -24,14 +35,17 @@ public class ClientPlanController {
     }
 
     @RequestMapping(value = "/addClientPlan", method = RequestMethod.POST)
-    public int addClientPlan(ClientPlan clientPlan) {
+    public int addClientPlan(ClientPlan clientPlan,
+                             SecurityContextHolderAwareRequestWrapper request) {
         clientPlan.setData(clientPlan.getLinks().replace("\n",""));
         clientPlan.setData(clientPlan.getLinks().replace(" ",""));
         clientPlan.setData(clientPlan.getLinks().replace("\t",""));
         clientPlan.setLinks(clientPlan.getLinks().replace("\n",""));
         clientPlan.setLinks(clientPlan.getLinks().replace(" ",""));
         clientPlan.setLinks(clientPlan.getLinks().replace("\t",""));
-        clientPlan.setCreator_id(1);
+
+        CustomUserDetails userDetails = (CustomUserDetails)request.getUserPrincipal();
+        clientPlan.setCreator_id(userDetails.getId());
         clientPlan.setStatus("Active");
         return clientPlanService.addClientPlan(clientPlan);
     }

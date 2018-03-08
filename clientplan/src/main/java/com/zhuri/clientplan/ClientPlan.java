@@ -11,6 +11,7 @@ public class ClientPlan {
     private String status;
     private String data;
     private String links;
+    private int partner_id;
 
     public int getId() {
         return id;
@@ -66,5 +67,13 @@ public class ClientPlan {
 
     public void setLinks(String links) {
         this.links = links;
+    }
+
+    public int getPartner_id() {
+        return partner_id;
+    }
+
+    public void setPartner_id(int partner_id) {
+        this.partner_id = partner_id;
     }
 }

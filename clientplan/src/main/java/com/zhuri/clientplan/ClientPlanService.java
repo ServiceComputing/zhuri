@@ -13,6 +13,15 @@ public class ClientPlanService {
     @Autowired
     ClientPlanMapper clientPlanMapper;
 
+    /*public PageBean<ClientPlan> getClientPlans(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<ClientPlan> allRows = clientPlanMapper.getClientPlans();
+        int total = clientPlanMapper.countClientPlans();            //总记录数
+        PageBean<ClientPlan> pageData = new PageBean<>(pageNum, pageSize, total);
+        pageData.setRows(allRows);
+        return pageData;
+    }*/
+
     public PageBean<ClientPlan> getClientPlansByUserId(int userId, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<ClientPlan> allRows = clientPlanMapper.getClientPlansByUserId(userId);
@@ -29,8 +38,13 @@ public class ClientPlanService {
         return clientPlan;
     }
 
+    @Transactional
     public int addClientPlan(ClientPlan clientPlan) {
-        return clientPlanMapper.addClientPlan(clientPlan);
+        int result = 0;
+        result = clientPlanMapper.addClientPlan(clientPlan);
+        result += clientPlanMapper.addUserClientPlan(clientPlan.getCreator_id(), clientPlan.getId());
+        result += clientPlanMapper.addUserClientPlan(clientPlan.getPartner_id(), clientPlan.getId());
+        return result;
     }
 
     public int updateClientPlanText(ClientPlan clientPlan) {

@@ -9,6 +9,6 @@ public interface UserDetailsMapper {
     @Select("SELECT id,username,password,enabled FROM user WHERE username=#{username};")
     CustomUserDetails loadUserByUsername(@Param("username") String username);
 
-    @Select("SELECT role.name FROM user_role INNER JOIN role ON user_role.roleId=role.id WHERE user_role.userId=#{id};")
+    @Select("SELECT role.name FROM user_role INNER JOIN role ON user_role.role_id=role.id WHERE user_role.user_id=#{id};")
     String[] getUserAuthorities(int id);
 }
