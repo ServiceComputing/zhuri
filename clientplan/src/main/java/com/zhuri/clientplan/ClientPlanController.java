@@ -14,9 +14,8 @@ public class ClientPlanController {
     ClientPlanService clientPlanService;
 
     @RequestMapping(value = "/getClientPlansByUserId", method = RequestMethod.GET)
-    public PageBean<ClientPlan> getClientPlansByUserId( int pageNum, int pageSize,
-                                                            SecurityContextHolderAwareRequestWrapper request) {
-        CustomUserDetails userDetails = (CustomUserDetails) request.getUserPrincipal();
+    public PageBean<ClientPlan> getClientPlansByUserId( int pageNum, int pageSize) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication() .getPrincipal();
         return clientPlanService.getClientPlansByUserId(userDetails.getId(),pageNum, pageSize);
         /*if(request.isUserInRole("ROLE_MANAGER")) {
             return clientPlanService.getClientPlans(pageNum, pageSize);
@@ -35,8 +34,7 @@ public class ClientPlanController {
     }
 
     @RequestMapping(value = "/addClientPlan", method = RequestMethod.POST)
-    public int addClientPlan(ClientPlan clientPlan,
-                             SecurityContextHolderAwareRequestWrapper request) {
+    public int addClientPlan(ClientPlan clientPlan) {
         clientPlan.setData(clientPlan.getLinks().replace("\n",""));
         clientPlan.setData(clientPlan.getLinks().replace(" ",""));
         clientPlan.setData(clientPlan.getLinks().replace("\t",""));
@@ -44,7 +42,7 @@ public class ClientPlanController {
         clientPlan.setLinks(clientPlan.getLinks().replace(" ",""));
         clientPlan.setLinks(clientPlan.getLinks().replace("\t",""));
 
-        CustomUserDetails userDetails = (CustomUserDetails)request.getUserPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication() .getPrincipal();
         clientPlan.setCreator_id(userDetails.getId());
         clientPlan.setStatus("Active");
         return clientPlanService.addClientPlan(clientPlan);
