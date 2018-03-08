@@ -1,6 +1,7 @@
 package com.zhuri.clientplan;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -13,7 +14,8 @@ public class ClientPlanController {
 
     @RequestMapping(value = "/getClientPlansByUserId", method = RequestMethod.GET)
     public PageBean<ClientPlan> getClientPlansByUserId( int pageNum, int pageSize) {
-        return clientPlanService.getClientPlansByUserId(1,pageNum, pageSize);
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication() .getPrincipal();
+        return clientPlanService.getClientPlansByUserId(userDetails.getId(),pageNum, pageSize);
     }
 
     @RequestMapping(value = "/getClientPlansByClientPlanId", method = RequestMethod.GET)
