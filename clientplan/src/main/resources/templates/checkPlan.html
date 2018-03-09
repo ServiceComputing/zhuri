@@ -12,6 +12,9 @@
 	<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 	<link href="https://cdn.bootcss.com/simple-line-icons/2.4.1/css/simple-line-icons.min.css" rel="stylesheet" />
 
+	<link href="https://cdn.bootcss.com/datatables/1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+	<link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />
+
 	<!-- Main styles for this application -->
 	<link th:href="@{/css/coreUI/style.css}" rel="stylesheet" />
 	<!-- Styles required by this views -->
@@ -170,12 +173,13 @@
 									<i class="fa fa-align-justify"></i>现有计划
 								</div>
 								<div class="card-body">
-									<table class="table table-responsive-sm table-striped" id="checkPlanData">
+									<table class="table table-responsive-sm table-striped" id="checkPlanData" width="100%">
 										<thead>
 											<tr>
 												<th>ID</th>
-												<th>状态</th>
-												<th>操作</th>
+												<th>Status</th>
+												<th>Description</th>
+												<th>Operations</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -523,12 +527,16 @@
 	<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 	<script src="https://cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
 
+	<script src="https://cdn.bootcss.com/datatables/1.10.16/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.bootcss.com/datatables/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+
 	<!-- Plugins and scripts required by all views -->
 	<script src="https://cdn.bootcss.com/Chart.js/2.7.1/Chart.min.js"></script>
 
 	<!-- CoreUI main scripts -->
 
 	<script th:src="@{/js/coreUI/app.js}"></script>
+	<script th:src="@{/js/common/cookie-operator.js}"></script>
 	<script th:src="@{/js/pages/checkPlan.js}"></script>
 	<script th:src="@{/js/common/commonSettings.js}"></script>
 

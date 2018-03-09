@@ -152,7 +152,7 @@
 			<!-- Breadcrumb -->
 			<ol class="breadcrumb"  style="margin-bottom: 0px">
 				<li class="breadcrumb-item">Home</li>
-				<li class="breadcrumb-item active">修改计划</li>
+				<li class="breadcrumb-item active" id="planModify_breadcrumb">新建计划</li>
 
 				<!-- Breadcrumb Menu-->
 				<li class="breadcrumb-menu d-md-down-none">
@@ -520,8 +520,9 @@
 
 	<!-- CoreUI main scripts -->
 
-	<script th:src="@{/js/pages/planModify.js}"></script>
 	<script th:src="@{/js/common/commonSettings.js}"></script>
+	<script th:src="@{/js/common/cookie-operator.js}"></script>
+	<script th:src="@{/js/pages/planModify.js}"></script>
 	<script th:src="@{/js/coreUI/app.js}"></script>
 
 </body>

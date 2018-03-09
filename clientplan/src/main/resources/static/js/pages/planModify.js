@@ -53,6 +53,7 @@ var demo_tasks = {
 };
 
 var add_flag = 0;
+var id = 0;
 
 function reset_Gantt_sizes ()
 {
@@ -84,55 +85,48 @@ function init_Gantt (gantt_data)
 
 function main ()
 {
-    $.ajax (
-        {
-            type: "GET",
-            url: "/getClientPlansByClientPlanId",
-            data: { "clientPlanId": 3 },
-            success: function (receive_data)
+    id = find_cookie("id");
+    console.log(id);
+    if (id != 'empty')
+    {
+        delete_cookie("id");
+        // $("#planModify_sidebar").html('<i class="icon-drop"></i>修改计划');
+        $("#planModify_breadcrumb").html("修改计划");
+        $.ajax(
             {
-                console.log(receive_data);
-                var gantt_data = {};
-                gantt_data["links"] = JSON.parse(receive_data["links"]);
-                gantt_data["data"] = JSON.parse(receive_data["data"]);
-                console.log(gantt_data);
-                init_Gantt(gantt_data);
+                type: "GET",
+                url: "/getClientPlansByClientPlanId",
+                data: { "clientPlanId": id[1] },
+                success: function (receive_data) {
+                    console.log(receive_data);
+                    var gantt_data = {};
+                    gantt_data["links"] = JSON.parse(receive_data["links"]);
+                    gantt_data["data"] = JSON.parse(receive_data["data"]);
+                    console.log(gantt_data);
+                    init_Gantt(gantt_data);
+                }
             }
-        }
-    );
-    // var formData = new FormData();
-    // formData.append("text", "test_add");
-    // formData.append("createDate", new Date());
-    // formData.append("data", JSON.stringify(demo_tasks["data"]));
-    // formData.append("links", JSON.stringify(demo_tasks["links"]));
-    // $.ajax (
-    //     {
-    //         type: "POST",
-    //         url: "/addClientPlan",
-    //         data: formData,
-    //         contentType: false,
-    //         processData: false,
-    //         success: function (data) 
-    //         {
-    //             console.log(data);
-    //             console.log("success");
-    //         }
-    //     }
-    // );
+        );
+    }
+    else
+    {
+        init_Gantt(demo_tasks);
+        gantt.clearAll();
+    }
+    
 }
 
 $("#btnSave").click(function ()
 {
-    if (add_flag == 0)
+    if (id != 'empty')
     {
         var formData = new FormData();
         var demo_tasks = gantt.serialize();
-        console.log(demo_tasks);
         formData.append("text", "test_add");
         formData.append("createDate", new Date());
         formData.append("data", JSON.stringify(demo_tasks["data"]));
         formData.append("links", JSON.stringify(demo_tasks["links"]));
-        formData.append("id", 3);
+        formData.append("id", id[1]);
         $.ajax(
             {
                 type: "POST",
@@ -141,13 +135,13 @@ $("#btnSave").click(function ()
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    console.log(data);
-                    console.log("success");
+                    // console.log(data);
+                    // console.log("success");
                     alert("Success!");
                     window.location.href = '/checkPlan';
                 },
                 error: function (data) {
-                    console.log(data);
+                    // console.log(data);
                     alert("Error in modifying!");
                 }
             }
@@ -156,10 +150,12 @@ $("#btnSave").click(function ()
     else
     {
         var formData = new FormData();
+        var demo_tasks = gantt.serialize();
         formData.append("text", "test_add");
         formData.append("createDate", new Date());
         formData.append("data", JSON.stringify(demo_tasks["data"]));
         formData.append("links", JSON.stringify(demo_tasks["links"]));
+        console.log(demo_tasks);
         $.ajax (
             {
                 type: "POST",
@@ -169,19 +165,19 @@ $("#btnSave").click(function ()
                 processData: false,
                 success: function (data) 
                 {
-                    console.log(data);
-                    console.log("success");
+                    // console.log(data);
+                    // console.log("success");
+                    alert("Success!");
+                    window.location.href = '/checkPlan';
+                },
+                error: function (data) {
+                    // console.log(data);
+                    alert("Error in creating!");
                 }
             }
         );
     }
    
 });
-
-// $("#btnNew").click(function ()
-// {
-//     gantt.clearAll();
-//     add_flag = 1;
-// });
 
 main();
