@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ClientPlanService {
@@ -22,12 +23,24 @@ public class ClientPlanService {
         return pageData;
     }*/
 
-    public PageBean<ClientPlan> getClientPlansByUserId(int userId, int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<ClientPlan> allRows = clientPlanMapper.getClientPlansByUserId(userId);
-        int total = clientPlanMapper.countClientPlansByUserId(userId);            //总记录数
-        PageBean<ClientPlan> pageData = new PageBean<>(pageNum, pageSize, total);
-        pageData.setRows(allRows);
+    public DataTables<ClientPlan> getClientPlansByUserId(int userId, Map<String,String> reqMap) {
+        int draw, start,length;
+        try {
+            draw = Integer.parseInt(reqMap.get("draw"));
+            start = Integer.parseInt(reqMap.get("start"));
+            length = Integer.parseInt(reqMap.get("length"));
+        }  catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        PageHelper.startPage(start, length);
+        List<ClientPlan> data = clientPlanMapper.getClientPlansByUserId(userId);
+        int recordsTotal = clientPlanMapper.countClientPlansByUserId(userId);            //总记录数
+        //PageBean<ClientPlan> pageData = new PageBean<>(pageNum, pageSize, total);
+        //pageData.setRows(dataTotal);
+        //return pageData;
+        DataTables<ClientPlan> pageData = new DataTables<>(draw, recordsTotal, data.size(), data, null);
         return pageData;
     }
 
@@ -43,7 +56,7 @@ public class ClientPlanService {
         int result = 0;
         result = clientPlanMapper.addClientPlan(clientPlan);
         result += clientPlanMapper.addUserClientPlan(clientPlan.getCreator_id(), clientPlan.getId());
-        result += clientPlanMapper.addUserClientPlan(clientPlan.getPartner_id(), clientPlan.getId());
+        //result += clientPlanMapper.addUserClientPlan(clientPlan.getPartner_id(), clientPlan.getId());
         return result;
     }
 

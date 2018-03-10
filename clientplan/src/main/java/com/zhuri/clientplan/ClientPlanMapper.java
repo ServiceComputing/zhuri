@@ -26,6 +26,7 @@ public interface ClientPlanMapper {
     ClientPlan getClientPlansByClientPlanId(int clientPlanId);
 
     @Insert("INSERT INTO client_plan(text,create_date,creator_id,status,data,links) VALUES(#{text},#{create_date},#{creator_id},#{status},#{data},#{links})")
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     int addClientPlan(ClientPlan clientPlan);
 
     @Insert("INSERT INTO user_client_plan(user_id, client_plan_id) VALUES(#{userId}, #{clientPlanId})")

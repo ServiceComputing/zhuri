@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ClientPlanController {
@@ -14,18 +15,9 @@ public class ClientPlanController {
     ClientPlanService clientPlanService;
 
     @RequestMapping(value = "/getClientPlansByUserId", method = RequestMethod.GET)
-    public PageBean<ClientPlan> getClientPlansByUserId( int pageNum, int pageSize) {
+    public DataTables<ClientPlan> getClientPlansByUserId(@RequestParam Map<String,String> reqMap) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication() .getPrincipal();
-        return clientPlanService.getClientPlansByUserId(userDetails.getId(),pageNum, pageSize);
-        /*if(request.isUserInRole("ROLE_MANAGER")) {
-            return clientPlanService.getClientPlans(pageNum, pageSize);
-        } else if(request.isUserInRole("ROLE_CLIENT")){
-            CustomUserDetails userDetails = (CustomUserDetails)request.getUserPrincipal();
-            //System.out.println(userDetails.getUsername());
-            return clientPlanService.getClientPlansByUserId(userDetails.getId(),pageNum, pageSize);
-        } else {
-            return null;
-        }*/
+        return clientPlanService.getClientPlansByUserId(userDetails.getId(),reqMap);
     }
 
     @RequestMapping(value = "/getClientPlansByClientPlanId", method = RequestMethod.GET)
@@ -35,9 +27,9 @@ public class ClientPlanController {
 
     @RequestMapping(value = "/addClientPlan", method = RequestMethod.POST)
     public int addClientPlan(ClientPlan clientPlan) {
-        clientPlan.setData(clientPlan.getLinks().replace("\n",""));
-        clientPlan.setData(clientPlan.getLinks().replace(" ",""));
-        clientPlan.setData(clientPlan.getLinks().replace("\t",""));
+        clientPlan.setData(clientPlan.getData().replace("\n",""));
+        clientPlan.setData(clientPlan.getData().replace(" ",""));
+        clientPlan.setData(clientPlan.getData().replace("\t",""));
         clientPlan.setLinks(clientPlan.getLinks().replace("\n",""));
         clientPlan.setLinks(clientPlan.getLinks().replace(" ",""));
         clientPlan.setLinks(clientPlan.getLinks().replace("\t",""));
