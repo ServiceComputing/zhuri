@@ -28,15 +28,14 @@ function main ()
     // );
     $("#checkPlanData").dataTable({
         "aLengthMenu": [10, 20, 25, 50],
-        // "serverSide": true,
-        // "processing": true,
-        "autoWidth": true,
+        "serverSide": true,
+        "processing": true,
         "ajax": {
             "url": "/getClientPlansByUserId",
             "type": "GET",
-            "data": { "pageNum": 1, "pageSize": 100 },
+            // "data": { "pageNum": 1, "pageSize": 100 },
             "dataType": "json",
-            "dataSrc": "rows"
+            // "dataSrc": "rows"
         },
         "columns": [
             { "data" : "id" },
