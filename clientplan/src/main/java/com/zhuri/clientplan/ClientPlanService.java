@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -31,23 +30,18 @@ public class ClientPlanService {
             length = Integer.parseInt(reqMap.get("length"));
         }  catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return new DataTables<>(0, 0, 0, null, "Invalid parameters!");
         }
 
         PageHelper.startPage(start, length);
         List<ClientPlan> data = clientPlanMapper.getClientPlansByUserId(userId);
         int recordsTotal = clientPlanMapper.countClientPlansByUserId(userId);            //总记录数
-        //PageBean<ClientPlan> pageData = new PageBean<>(pageNum, pageSize, total);
-        //pageData.setRows(dataTotal);
-        //return pageData;
         DataTables<ClientPlan> pageData = new DataTables<>(draw, recordsTotal, data.size(), data, null);
         return pageData;
     }
 
     public ClientPlan getClientPlansByClientPlanId(int clientPlanId) {
         ClientPlan clientPlan = clientPlanMapper.getClientPlansByClientPlanId(clientPlanId);
-        //clientPlan.setTasks(clientPlanMapper.getTasksByClientPlanId(clientPlanId));
-        //clientPlan.setLinks(clientPlanMapper.getLinksByClientPlanId(clientPlanId));
         return clientPlan;
     }
 
