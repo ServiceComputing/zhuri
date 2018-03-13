@@ -172,10 +172,37 @@
 
 			<div class="container-fluid" style="padding-left: 0px; padding-right: 0px">
 				<div class="animated fadeIn">
-					<div class="col-lg-12">
-						<div class="card-body" style="padding: 0px">
-							<div id="gantt"></div>
+					<div class="col-lg-12" id="basicInfo">
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-lg-12">
+										<div class="form-group row">
+											<label for="nf-text" class="col-lg-2 col-form-label">Description</label>
+											<div class="col-lg-10">
+												<input id="nf-text" name="nf-text" class="form-control" placeholder="Enter Description..."></input>
+												<span class="help-block">Please Enter Description of the Plan</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card-footer">
+								<div style="float: right">
+									<button class="btn btn-sm btn-primary" id="btnNext">
+										<i class="fa fa-dot-circle-o"></i>Next
+									</button>
+								</div>
+							</div>
 						</div>
+					</div>
+					<div class="col-lg-12" id="editPlan">
+						<div class="card">
+							<div class="card-body" style="padding: 0px">
+								<div id="gantt"></div>
+							</div>
+						</div>
+						
 					</div>
 				</div>
 
@@ -509,6 +536,7 @@
 	<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"></script>
 	<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 	<script src="https://cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+	<script src="https://cdn.bootcss.com/moment.js/2.21.0/moment.min.js"></script>
 
 	<script th:src="@{/dhtmlx/gantt/dhtmlxgantt.js}"></script>
 	<script th:src="@{/dhtmlx/gantt/locale_cn.js}"></script>

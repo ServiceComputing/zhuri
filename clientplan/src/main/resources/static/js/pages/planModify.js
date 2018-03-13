@@ -54,6 +54,7 @@ var demo_tasks = {
 
 var add_flag = 0;
 var id = 0;
+var text = "";
 
 function reset_Gantt_sizes ()
 {
@@ -87,6 +88,8 @@ function main ()
 {
     id = find_cookie("id");
     console.log(id);
+    $("#basicInfo").show();
+    $("#editPlan").hide();
     if (id != 'empty')
     {
         delete_cookie("id");
@@ -113,8 +116,14 @@ function main ()
         init_Gantt(demo_tasks);
         gantt.clearAll();
     }
-    
 }
+
+$("#btnNext").click(function ()
+{
+    text = $("#nf-text").val();
+    $("#basicInfo").hide();
+    $("#editPlan").show();
+});
 
 $("#btnSave").click(function ()
 {
@@ -122,8 +131,8 @@ $("#btnSave").click(function ()
     {
         var formData = new FormData();
         var demo_tasks = gantt.serialize();
-        formData.append("text", "test_add");
-        formData.append("createDate", new Date());
+        formData.append("text", text);
+        formData.append("createDate", moment().format("x"));
         formData.append("data", JSON.stringify(demo_tasks["data"]));
         formData.append("links", JSON.stringify(demo_tasks["links"]));
         formData.append("id", id[1]);
@@ -151,8 +160,8 @@ $("#btnSave").click(function ()
     {
         var formData = new FormData();
         var demo_tasks = gantt.serialize();
-        formData.append("text", "test_add");
-        formData.append("createDate", new Date());
+        formData.append("text", text);
+        formData.append("createDate", moment.format("x"));
         formData.append("data", JSON.stringify(demo_tasks["data"]));
         formData.append("links", JSON.stringify(demo_tasks["links"]));
         console.log(demo_tasks);
