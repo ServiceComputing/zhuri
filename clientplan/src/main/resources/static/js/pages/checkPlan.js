@@ -21,7 +21,6 @@ function main ()
             { "data" : "id" },
             { "data" : "status" },
             { "data" : "text" },
-            { "data" : "partner_id" },
             { "data" : "id" }
         ],
         "columnDefs": [
@@ -36,23 +35,11 @@ function main ()
                 "targets": 3,
                 "render": function (data, type, row)
                 {
-                    console.log(data);
-                    if (data == "0")
-                    {
-                        return "none";
-                    }
-                    else return data;
-                }
-            },
-            {
-                "targets": 4,
-                "render": function (data, type, row)
-                {
                     // console.log(data);
                     // console.log(type);
                     // console.log(row);
                     var html = "";
-                    html += '<a class="btn btn-info" href="javascript:void(0);" title="编辑计划" onclick="redirectModifyPlan(' + row.id + ')"><i class="fa fa-edit "></i></a>';
+                    html += '<a class="btn btn-info" href="javascript:void(0);" title="Edit Plan" onclick="redirectModifyPlan(' + row.id + ')"><i class="fa fa-edit "></i></a>';
                     return html;
                 }
             }

@@ -8,11 +8,11 @@ function modifySidebar ()
                 </a>\
             </li>\
             <li class="nav-title">\
-                功能\
+                Modules\
 					</li>\
             <li class="nav-item">\
                 <a href="/planModify" class="nav-link" id="planModify_sidebar">\
-                    <i class="icon-drop"></i>新建计划</a>\
+                    <i class="icon-drop"></i>Create Plan</a>\
             </li>\
         </ul>';
     $(".sidebar-nav").html(sidebarContent);

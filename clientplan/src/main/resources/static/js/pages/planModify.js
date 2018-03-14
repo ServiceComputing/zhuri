@@ -94,7 +94,7 @@ function main ()
         $("#sel-part-form").hide();
         delete_cookie("id");
         // $("#planModify_sidebar").html('<i class="icon-drop"></i>修改计划');
-        $("#planModify_breadcrumb").html("修改计划");
+        $("#planModify_breadcrumb").html("Modify Plan");
         $.ajax(
             {
                 type: "GET",
