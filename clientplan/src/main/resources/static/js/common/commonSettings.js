@@ -18,6 +18,12 @@ function modifySidebar ()
     $(".sidebar-nav").html(sidebarContent);
 }
 
+function modifyNavbar ()
+{
+    $(".app-header > .d-md-down-none").html();
+}
+
 // <span class="badge badge-primary">NEW</span>
 
 modifySidebar();
+modifyNavbar();

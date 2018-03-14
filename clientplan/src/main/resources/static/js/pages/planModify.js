@@ -87,11 +87,12 @@ function init_Gantt (gantt_data)
 function main ()
 {
     id = find_cookie("id");
-    console.log(id);
+    // console.log(id);
     $("#basicInfo").show();
     $("#editPlan").hide();
     if (id != 'empty')
     {
+        $("#sel-part-form").hide();
         delete_cookie("id");
         // $("#planModify_sidebar").html('<i class="icon-drop"></i>修改计划');
         $("#planModify_breadcrumb").html("修改计划");
@@ -113,6 +114,25 @@ function main ()
     }
     else
     {
+        $("#sel-part-form").show();
+        $.ajax(
+            {
+                type: "GET",
+                url: "/getUsersByRole",
+                success: function (data) {
+                    $("#sel-partner").html();
+                    var ret = "";
+                    // console.log(data);
+                    ret += '<option value="0">Please Select...</option>';
+                    for (var element in data) {
+                        // console.log(element);
+                        ret += '<option value=' + data[element]["id"] + '>' + data[element]["username"] + '</option>';
+                    }
+                    $("#sel-partner").html(ret);
+                    // console.log(ret);
+                }
+            }
+        );
         init_Gantt(demo_tasks);
         gantt.clearAll();
     }
@@ -123,6 +143,7 @@ $("#btnNext").click(function ()
     text = $("#nf-text").val();
     $("#basicInfo").hide();
     $("#editPlan").show();
+    reset_Gantt_sizes();
 });
 
 $("#btnSave").click(function ()
@@ -161,10 +182,12 @@ $("#btnSave").click(function ()
         var formData = new FormData();
         var demo_tasks = gantt.serialize();
         formData.append("text", text);
-        formData.append("createDate", moment.format("x"));
+        formData.append("createDate", moment().format("x"));
         formData.append("data", JSON.stringify(demo_tasks["data"]));
         formData.append("links", JSON.stringify(demo_tasks["links"]));
-        console.log(demo_tasks);
+        formData.append("partner_id", $("#sel-partner").val());
+        // console.log(demo_tasks);
+        // console.log($("#sel-partner").val());
         $.ajax (
             {
                 type: "POST",

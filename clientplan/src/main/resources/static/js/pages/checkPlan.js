@@ -1,31 +1,11 @@
 function redirectModifyPlan (id)
 {
     add_cookie("id", id);
-    // console.log(id);
     window.location.href = "/planModify";
 }
 
 function main ()
 {
-    // $.ajax(
-    //     {
-    //         type: "GET",
-    //         url: "/getClientPlansByUserId",
-    //         success: function (data)
-    //         {
-    //             var ret = "";
-    //             for (var element in data)
-    //             {
-    //                 ret += "<tr>";
-    //                 ret += "<td>" + data[element]["id"].toString() + "</td>";
-    //                 ret += '<td><span class="badge badge-success">Active</span></td>';
-    //                 ret += '<td><a href="/planModify">修改...</a></td>';
-    //                 ret += "</tr>";
-    //             }
-    //             $("#checkPlanData > tbody").html(ret);
-    //         }
-    //     }
-    // );
     $("#checkPlanData").dataTable({
         "aLengthMenu": [10, 20, 25, 50],
         "serverSide": true,
@@ -41,6 +21,7 @@ function main ()
             { "data" : "id" },
             { "data" : "status" },
             { "data" : "text" },
+            { "data" : "partner_id" },
             { "data" : "id" }
         ],
         "columnDefs": [
@@ -55,16 +36,49 @@ function main ()
                 "targets": 3,
                 "render": function (data, type, row)
                 {
+                    console.log(data);
+                    if (data == "0")
+                    {
+                        return "none";
+                    }
+                    else return data;
+                }
+            },
+            {
+                "targets": 4,
+                "render": function (data, type, row)
+                {
                     // console.log(data);
                     // console.log(type);
                     // console.log(row);
                     var html = "";
-                    html += '<a class="btn btn-info" href="javascript:void(0);" onclick="redirectModifyPlan(' + row.id + ')"><i class="fa fa-edit "></i></a>';
+                    html += '<a class="btn btn-info" href="javascript:void(0);" title="编辑计划" onclick="redirectModifyPlan(' + row.id + ')"><i class="fa fa-edit "></i></a>';
                     return html;
                 }
             }
         ]
     });
+
+    $.ajax(
+        {
+            type: "GET",
+            url: "/getCurrentUser",
+            success: function (data)
+            {
+                console.log(data);
+            }
+        }
+    );
+    $.ajax (
+        {
+            type: "GET",
+            url: "/getUsersByRole",
+            success: function (data)
+            {
+                console.log(data);
+            }
+        }
+    )
 }
 
 main();
