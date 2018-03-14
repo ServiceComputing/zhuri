@@ -20,10 +20,20 @@ function modifySidebar ()
 
 function modifyNavbar ()
 {
-    $(".app-header > .d-md-down-none").html();
+    $(".app-header > .d-md-down-none").html("");
+}
+
+function modifyFooter ()
+{
+    var footerContent = 
+        '<span class="ml-auto">Powered by\
+			<a href="#">Zhuri</a>\
+        </span>';
+    $(".app-footer").html(footerContent);
 }
 
 // <span class="badge badge-primary">NEW</span>
 
 modifySidebar();
 modifyNavbar();
+modifyFooter();
