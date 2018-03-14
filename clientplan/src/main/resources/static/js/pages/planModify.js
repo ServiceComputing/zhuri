@@ -87,7 +87,6 @@ function init_Gantt (gantt_data)
 function main ()
 {
     id = find_cookie("id");
-    // console.log(id);
     $("#basicInfo").show();
     $("#editPlan").hide();
     if (id != 'empty')
