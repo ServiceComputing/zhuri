@@ -53,7 +53,7 @@ public class ClientPlanService {
         int result = 0;
         result = clientPlanMapper.addClientPlan(clientPlan);
         result += clientPlanMapper.addUserClientPlan(clientPlan.getCreator_id(), clientPlan.getId());
-        //result += clientPlanMapper.addUserClientPlan(clientPlan.getPartner_id(), clientPlan.getId());
+        result += clientPlanMapper.addUserClientPlan(clientPlan.getPartner_id(), clientPlan.getId());
         return result;
     }
 

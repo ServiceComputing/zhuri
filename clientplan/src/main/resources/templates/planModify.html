@@ -9,9 +9,12 @@
 	<title>zhuri</title>
 
 	<!-- Icons -->
-	<link href="https://cdn.bootcss.com/flag-icon-css/2.9.0/css/flag-icon.min.css" rel="stylesheet" />
+	<!-- <link href="https://cdn.bootcss.com/flag-icon-css/2.9.0/css/flag-icon.min.css" rel="stylesheet" />
 	<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-	<link href="https://cdn.bootcss.com/simple-line-icons/2.4.1/css/simple-line-icons.min.css" rel="stylesheet" />
+	<link href="https://cdn.bootcss.com/simple-line-icons/2.4.1/css/simple-line-icons.min.css" rel="stylesheet" /> -->
+	<link th:href="@{/css/coreUI/flag-icon/flag-icon.min.css}" rel="stylesheet" />
+	<link th:href="@{/css/coreUI/font-awesome/css/fontawesome-all.min.css}" rel="stylesheet" />
+	<link th:href="@{/css/coreUI/simple-line-icons/css/simple-line-icons.css}" rel="stylesheet" />
 
 	<!-- Main styles for this application -->
 	<link th:href="@{/css/coreUI/style.css}" rel="stylesheet" />
@@ -70,7 +73,7 @@
 			</li>
 		</ul>
 		<ul class="nav navbar-nav ml-auto">
-			<li class="nav-item d-md-down-none">
+			<!-- <li class="nav-item d-md-down-none">
 				<a class="nav-link" href="#">
 					<i class="icon-bell"></i>
 					<span class="badge badge-pill badge-danger">5</span>
@@ -85,7 +88,7 @@
 				<a class="nav-link" href="#">
 					<i class="icon-location-pin"></i>
 				</a>
-			</li>
+			</li> -->
 			<li class="nav-item dropdown">
 				<a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 					<img th:src="@{/img/coreUI/avatars/6.jpg}" class="img-avatar" alt="admin@bootstrapmaster.com" />
@@ -152,7 +155,7 @@
 			<!-- Breadcrumb -->
 			<ol class="breadcrumb"  style="margin-bottom: 0px">
 				<li class="breadcrumb-item">Home</li>
-				<li class="breadcrumb-item active" id="planModify_breadcrumb">新建计划</li>
+				<li class="breadcrumb-item active" id="planModify_breadcrumb">New Plan</li>
 
 				<!-- Breadcrumb Menu-->
 				<li class="breadcrumb-menu d-md-down-none">
@@ -182,6 +185,15 @@
 											<div class="col-lg-10">
 												<input id="nf-text" name="nf-text" class="form-control" placeholder="Enter Description..."></input>
 												<span class="help-block">Please Enter Description of the Plan</span>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-12">
+										<div class="form-group row" id="sel-part-form">
+											<label for="sel-partner" class="col-lg-2 col-form-label">Partner</label>
+											<div class="col-lg-10">
+												<select class="form-control" name="sel-partner" id="sel-partner">
+												</select>
 											</div>
 										</div>
 									</div>
@@ -532,19 +544,25 @@
 	
 
 	<!-- Bootstrap and necessary plugins -->
-	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"></script>
-	<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-	<script src="https://cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
-	<script src="https://cdn.bootcss.com/moment.js/2.21.0/moment.min.js"></script>
-
+	<!-- <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script> -->
+	<!-- <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"></script> -->
+	<!-- <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
+	<!-- <script src="https://cdn.bootcss.com/pace/1.0.2/pace.min.js"></script> -->
+	<!-- <script src="https://cdn.bootcss.com/moment.js/2.21.0/moment.min.js"></script> -->
+	<script th:src="@{/js/coreUI/jquery.min.js}"></script>
+	<script th:src="@{/js/coreUI/popper.min.js}"></script>
+	<script th:src="@{/js/coreUI/bootstrap.min.js}"></script>
+	<script th:src="@{/js/coreUI/pace.min.js}"></script>
+	<script th:src="@{/js/coreUI/moment.min.js}"></script>
+	
 	<script th:src="@{/dhtmlx/gantt/dhtmlxgantt.js}"></script>
-	<script th:src="@{/dhtmlx/gantt/locale_cn.js}"></script>
+	<!-- <script th:src="@{/dhtmlx/gantt/locale_cn.js}"></script> -->
 	<script th:src="@{/dhtmlx/gantt/exts/dhtmlxgantt_multiselect.js}"></script>
 	<script th:src="@{/dhtmlx/gantt/exts/dhtmlxgantt_undo.js}"></script>
-
+	
 	<!-- Plugins and scripts required by all views -->
-	<script src="https://cdn.bootcss.com/Chart.js/2.7.1/Chart.min.js"></script>
+	<!-- <script src="https://cdn.bootcss.com/Chart.js/2.7.1/Chart.min.js"></script> -->
+	<script th:src="@{/js/coreUI/Chart.min.js}"></script>
 
 	<!-- CoreUI main scripts -->
 
