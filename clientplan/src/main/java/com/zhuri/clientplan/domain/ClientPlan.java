@@ -1,4 +1,4 @@
-package com.zhuri.clientplan;
+package com.zhuri.clientplan.domain;
 
 import java.sql.Timestamp;
 import java.util.List;

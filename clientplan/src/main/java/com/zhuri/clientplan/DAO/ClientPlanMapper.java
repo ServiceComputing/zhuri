@@ -1,5 +1,6 @@
-package com.zhuri.clientplan;
+package com.zhuri.clientplan.DAO;
 
+import com.zhuri.clientplan.domain.ClientPlan;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

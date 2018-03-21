@@ -1,4 +1,4 @@
-package com.zhuri.clientplan;
+package com.zhuri.clientplan.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

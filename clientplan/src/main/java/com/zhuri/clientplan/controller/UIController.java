@@ -1,4 +1,4 @@
-package com.zhuri.clientplan;
+package com.zhuri.clientplan.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

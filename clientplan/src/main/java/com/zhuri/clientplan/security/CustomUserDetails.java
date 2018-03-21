@@ -1,4 +1,4 @@
-package com.zhuri.clientplan;
+package com.zhuri.clientplan.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
