@@ -16,15 +16,6 @@ public class ClientPlanService {
     @Autowired
     ClientPlanMapper clientPlanMapper;
 
-    /*public PageBean<ClientPlan> getClientPlans(int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<ClientPlan> allRows = clientPlanMapper.getClientPlans();
-        int total = clientPlanMapper.countClientPlans();            //总记录数
-        PageBean<ClientPlan> pageData = new PageBean<>(pageNum, pageSize, total);
-        pageData.setRows(allRows);
-        return pageData;
-    }*/
-
     public DataTables<ClientPlan> getClientPlansByUserId(int userId, Map<String,String> reqMap) {
         int draw, start,length;
         try {
