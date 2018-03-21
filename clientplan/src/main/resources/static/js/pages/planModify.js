@@ -54,6 +54,7 @@ var demo_tasks = {
 
 var add_flag = 0;
 var id = 0;
+var type = 0;
 var text = "";
 
 function reset_Gantt_sizes ()
@@ -93,6 +94,7 @@ function main ()
     {
         $("#sel-part-form").hide();
         delete_cookie("id");
+        type = find_cookie("type");
         // $("#planModify_sidebar").html('<i class="icon-drop"></i>修改计划');
         $("#planModify_breadcrumb").html("Modify Plan");
         $.ajax(
@@ -101,12 +103,33 @@ function main ()
                 url: "/getClientPlansByClientPlanId",
                 data: { "clientPlanId": id[1] },
                 success: function (receive_data) {
-                    console.log(receive_data);
+                    // console.log(receive_data);
                     var gantt_data = {};
                     gantt_data["links"] = JSON.parse(receive_data["links"]);
                     gantt_data["data"] = JSON.parse(receive_data["data"]);
-                    console.log(gantt_data);
-                    init_Gantt(gantt_data);
+                    // console.log(gantt_data);
+                    if (tasks == 'template') 
+                    {
+                        $.ajax(
+                            {
+                                type: "GET",
+                                url: "/getCurrentUser",
+                                success: function (data) 
+                                {
+                                    console.log(data);
+                                    if (data[authorities][0] != "ROLE_MANAGER") 
+                                    {
+                                        gantt.config.readonly = true;
+                                    }
+                                    init_Gantt(gantt_data);
+                                }
+                            }
+                        );
+                    }
+                    else 
+                    {
+                        init_Gantt(gantt_data);
+                    }
                 }
             }
         );
@@ -123,11 +146,33 @@ function main ()
                     var ret = "";
                     // console.log(data);
                     ret += '<option value="0">Please Select...</option>';
-                    for (var element in data) {
-                        // console.log(element);
-                        ret += '<option value=' + data[element]["id"] + '>' + data[element]["username"] + '</option>';
-                    }
-                    $("#sel-partner").html(ret);
+                    $.ajax(
+                        {
+                            type: "GET",
+                            url: "/getCurrentUser",
+                            success: function (data) {
+                                console.log(data);
+                                if (data[authorities][0] != "ROLE_MANAGER") 
+                                {
+                                    for (var element in data)
+                                    {
+                                        if (data[element]["username"] == "zhuri")
+                                        {
+                                            ret += '<option value=' + data[element]["id"] + ' selected="selected">' + data[element]["username"] + '</option>';
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    for (var element in data) 
+                                    {
+                                        ret += '<option value=' + data[element]["id"] + '>' + data[element]["username"] + '</option>';
+                                    }
+                                }
+                                $("#sel-partner").html(ret);
+                            }
+                        }
+                    );
                     // console.log(ret);
                 }
             }
@@ -145,7 +190,7 @@ $("#btnNext").click(function ()
     reset_Gantt_sizes();
 });
 
-$("#btnSave").click(function ()
+$("#btnSubmit").click(function ()
 {
     if (id != 'empty')
     {
@@ -209,6 +254,68 @@ $("#btnSave").click(function ()
         );
     }
    
+});
+
+$("#btnSave").click(function ()
+{
+    if (id != 'empty') {
+        var formData = new FormData();
+        var demo_tasks = gantt.serialize();
+        formData.append("text", text);
+        formData.append("createDate", moment().format("x"));
+        formData.append("data", JSON.stringify(demo_tasks["data"]));
+        formData.append("links", JSON.stringify(demo_tasks["links"]));
+        formData.append("id", id[1]);
+        $.ajax(
+            {
+                type: "POST",
+                url: "/updateTemplatePlanTasksAndLinks",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    // console.log(data);
+                    // console.log("success");
+                    alert("Success!");
+                    window.location.href = '/checkPlan';
+                },
+                error: function (data) {
+                    // console.log(data);
+                    alert("Error in modifying!");
+                }
+            }
+        );
+    }
+    else {
+        var formData = new FormData();
+        var demo_tasks = gantt.serialize();
+        formData.append("text", text);
+        formData.append("createDate", moment().format("x"));
+        formData.append("data", JSON.stringify(demo_tasks["data"]));
+        formData.append("links", JSON.stringify(demo_tasks["links"]));
+        formData.append("partner_id", $("#sel-partner").val());
+        // console.log(demo_tasks);
+        console.log($("#sel-partner").val());
+        $.ajax(
+            {
+                type: "POST",
+                url: "/addTemplatePlan",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    // console.log(data);
+                    // console.log("success");
+                    alert("Success!");
+                    window.location.href = '/checkPlan';
+                },
+                error: function (data) {
+                    // console.log(data);
+                    alert("Error in creating!");
+                }
+            }
+        );
+    }
 });
 
 main();
