@@ -150,9 +150,9 @@ function main ()
                         {
                             type: "GET",
                             url: "/getCurrentUser",
-                            success: function (data) {
-                                console.log(data);
-                                if (data[authorities][0] != "ROLE_MANAGER") 
+                            success: function (roledata) {
+                                // console.log(roledata);
+                                if (roledata["authorities"][0] != "ROLE_MANAGER") 
                                 {
                                     for (var element in data)
                                     {
@@ -230,8 +230,7 @@ $("#btnSubmit").click(function ()
         formData.append("data", JSON.stringify(demo_tasks["data"]));
         formData.append("links", JSON.stringify(demo_tasks["links"]));
         formData.append("partner_id", $("#sel-partner").val());
-        // console.log(demo_tasks);
-        // console.log($("#sel-partner").val());
+
         $.ajax (
             {
                 type: "POST",
@@ -241,13 +240,11 @@ $("#btnSubmit").click(function ()
                 processData: false,
                 success: function (data) 
                 {
-                    // console.log(data);
-                    // console.log("success");
                     alert("Success!");
                     window.location.href = '/checkPlan';
                 },
-                error: function (data) {
-                    // console.log(data);
+                error: function (data) 
+                {
                     alert("Error in creating!");
                 }
             }
@@ -274,13 +271,10 @@ $("#btnSave").click(function ()
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    // console.log(data);
-                    // console.log("success");
                     alert("Success!");
                     window.location.href = '/checkPlan';
                 },
                 error: function (data) {
-                    // console.log(data);
                     alert("Error in modifying!");
                 }
             }
@@ -294,8 +288,6 @@ $("#btnSave").click(function ()
         formData.append("data", JSON.stringify(demo_tasks["data"]));
         formData.append("links", JSON.stringify(demo_tasks["links"]));
         formData.append("partner_id", $("#sel-partner").val());
-        // console.log(demo_tasks);
-        console.log($("#sel-partner").val());
         $.ajax(
             {
                 type: "POST",
@@ -304,13 +296,10 @@ $("#btnSave").click(function ()
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    // console.log(data);
-                    // console.log("success");
                     alert("Success!");
                     window.location.href = '/checkPlan';
                 },
                 error: function (data) {
-                    // console.log(data);
                     alert("Error in creating!");
                 }
             }
