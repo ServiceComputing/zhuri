@@ -16,6 +16,10 @@
 	<link th:href="@{/css/coreUI/font-awesome/css/fontawesome-all.min.css}" rel="stylesheet" />
 	<link th:href="@{/css/coreUI/simple-line-icons/css/simple-line-icons.css}" rel="stylesheet" />
 
+	<link th:href="@{/css/dataTables/dataTables.bootstrap4.min.css}" rel="stylesheet" />
+	<link th:href="@{/css/dataTables/bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/css/dataTables/select.dataTables.min.css}" rel="stylesheet" />
+
 	<!-- Main styles for this application -->
 	<link th:href="@{/css/coreUI/style.css}" rel="stylesheet" />
 	<link th:href="@{/dhtmlx/gantt/dhtmlxgantt.css}" rel="stylesheet" />
@@ -198,6 +202,25 @@
 												</select>
 											</div>
 										</div>
+									</div>
+									<div class="col-lg-12" id="checkPlanDataTemplateDiv">
+										<!-- <div class="form-group row" id="sel-template-form"> -->
+											<label for="sel-template" class="col-lg-12 col-form-label" style="padding-left: 0px; padding-right: 0px">Template</label>
+											<!-- <div class="col-lg-12"> -->
+												<table class="table table-responsive-sm table-striped" id="checkPlanDataTemplate" width="100%">
+													<thead>
+														<tr>
+															<th></th>
+															<th>ID</th>
+															<th>Status</th>
+															<th>Description</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+												</table>
+											<!-- </div> -->
+										<!-- </div> -->
 									</div>
 								</div>
 							</div>
@@ -561,6 +584,10 @@
 	<!-- <script th:src="@{/dhtmlx/gantt/locale_cn.js}"></script> -->
 	<script th:src="@{/dhtmlx/gantt/exts/dhtmlxgantt_multiselect.js}"></script>
 	<script th:src="@{/dhtmlx/gantt/exts/dhtmlxgantt_undo.js}"></script>
+
+	<script th:src="@{/js/dataTables/jquery.dataTables.min.js}"></script>
+	<script th:src="@{/js/dataTables/dataTables.bootstrap4.min.js}"></script>
+	<script th:src="@{/js/dataTables/dataTables.select.min.js}"></script>
 	
 	<!-- Plugins and scripts required by all views -->
 	<!-- <script src="https://cdn.bootcss.com/Chart.js/2.7.1/Chart.min.js"></script> -->

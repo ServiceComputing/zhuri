@@ -56,12 +56,61 @@ var add_flag = 0;
 var id = 0;
 var type = 0;
 var text = "";
+var save_user = 0;
+
+var templateTable;
+var templateSelectedId = 0;
 
 function reset_Gantt_sizes ()
 {
     $(".main").css("height", $(".sidebar").height() - 1);
     $("#gantt").css("height", $(".main").height() - $(".breadcrumb").height() - 24);
     gantt.setSizes();
+}
+
+function templateTableInit ()
+{
+    $("#checkPlanDataTemplate").dataTable({
+        "searching": false,
+        "aLengthMenu": [10, 20, 25, 50],
+        "serverSide": true,
+        "processing": true,
+        "ajax": {
+            "url": "/getTemplatePlansByUserId",
+            "type": "GET",
+            // "data": { "pageNum": 1, "pageSize": 100 },
+            "dataType": "json",
+            // "dataSrc": "rows"
+        },
+        "columns": [
+            { "data": "id" },
+            { "data": "id" },
+            { "data": "status" },
+            { "data": "text" },
+        ],
+        select: {
+            info: false,
+            style: 'single',
+            selector: 'td:first-child'
+        },
+        "columnDefs": [
+            {
+                orderable: false,
+                className: 'select-checkbox',
+                targets: 0,
+                render: function (data, type, row) {
+                    return null;
+                }
+            },
+            {
+                "targets": 2,
+                "render": function (data, type, row) {
+                    return '<td><span class="badge badge-success">' + data + '</span></td>';
+                }
+            }
+        ]
+    });
+    templateTable = $("#checkPlanDataTemplate").DataTable()
 }
 
 function init_Gantt (gantt_data)
@@ -90,6 +139,7 @@ function main ()
     id = find_cookie("id");
     $("#basicInfo").show();
     $("#editPlan").hide();
+
     if (id != 'empty')
     {
         $("#sel-part-form").hide();
@@ -108,7 +158,7 @@ function main ()
                     gantt_data["links"] = JSON.parse(receive_data["links"]);
                     gantt_data["data"] = JSON.parse(receive_data["data"]);
                     // console.log(gantt_data);
-                    if (tasks == 'template') 
+                    if (type == 'template') 
                     {
                         $.ajax(
                             {
@@ -117,17 +167,22 @@ function main ()
                                 success: function (data) 
                                 {
                                     console.log(data);
-                                    if (data[authorities][0] != "ROLE_MANAGER") 
+                                    if (data["authorities"][0]["authority"] != "ROLE_MANAGER") 
                                     {
                                         gantt.config.readonly = true;
+                                        $("#basicInfo").hide();
+                                        $("#editPlan").show();
+                                        save_user = 1;
                                     }
                                     init_Gantt(gantt_data);
                                 }
                             }
                         );
+                        $("#checkPlanDataTemplateDiv").hide();
                     }
                     else 
                     {
+                        templateTableInit();
                         init_Gantt(gantt_data);
                     }
                 }
@@ -137,6 +192,7 @@ function main ()
     else
     {
         $("#sel-part-form").show();
+        templateTableInit();
         $.ajax(
             {
                 type: "GET",
@@ -144,15 +200,15 @@ function main ()
                 success: function (data) {
                     $("#sel-partner").html();
                     var ret = "";
-                    // console.log(data);
+                    console.log(data);
                     ret += '<option value="0">Please Select...</option>';
                     $.ajax(
                         {
                             type: "GET",
                             url: "/getCurrentUser",
                             success: function (roledata) {
-                                // console.log(roledata);
-                                if (roledata["authorities"][0] != "ROLE_MANAGER") 
+                                console.log(roledata);
+                                if (roledata["authorities"][0]["authority"] != "ROLE_MANAGER") 
                                 {
                                     for (var element in data)
                                     {
@@ -169,6 +225,7 @@ function main ()
                                         ret += '<option value=' + data[element]["id"] + '>' + data[element]["username"] + '</option>';
                                     }
                                 }
+                                console.log(ret);
                                 $("#sel-partner").html(ret);
                             }
                         }
@@ -185,6 +242,23 @@ function main ()
 $("#btnNext").click(function ()
 {
     text = $("#nf-text").val();
+    var selected_id = templateTable.rows({selected: true}).data()[0]["id"];
+    // console.log(templateTable.rows({ selected: true }).data());
+    $.ajax (
+        {
+            type: "GET",
+            url: "/getTemplatePlansByTemplatePlanId",
+            data: {"templatePlanId": selected_id},
+            success: function (data)
+            {
+                console.log(data);
+                var template_gantt = {};
+                template_gantt["data"] = JSON.parse(data["data"]);
+                template_gantt["links"] = JSON.parse(data["links"]);
+                gantt.parse(template_gantt);
+            }
+        }
+    )
     $("#basicInfo").hide();
     $("#editPlan").show();
     reset_Gantt_sizes();
@@ -192,6 +266,7 @@ $("#btnNext").click(function ()
 
 $("#btnSubmit").click(function ()
 {
+    if (save_user == 1) return;
     if (id != 'empty')
     {
         var formData = new FormData();
@@ -255,6 +330,7 @@ $("#btnSubmit").click(function ()
 
 $("#btnSave").click(function ()
 {
+    if (save_user == 1) return;
     if (id != 'empty') {
         var formData = new FormData();
         var demo_tasks = gantt.serialize();
