@@ -55,4 +55,8 @@ public class ClientPlanService {
     public int updateClientPlanTasksAndLinks(ClientPlan clientPlan) {
         return clientPlanMapper.updateClientPlanTasksAndLinks(clientPlan);
     }
+
+    public int updateClientPlanStatus(ClientPlan clientPlan) {
+        return clientPlanMapper.updateClientPlanStatus(clientPlan);
+    }
 }

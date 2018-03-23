@@ -44,6 +44,7 @@ modifyFooter();
 
 function redirectLinks (links)
 {
+    var ua = window.navigator.userAgent;
     var isSafari = ua.indexOf("Safari") != -1 && ua.indexOf("Version") != -1;
     if (isSafari)
     {

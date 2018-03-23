@@ -55,4 +55,8 @@ public class TemplatePlanService {
     public int updateTemplatePlanTasksAndLinks(ClientPlan clientPlan) {
         return templatePlanMapper.updateTemplatePlanTasksAndLinks(clientPlan);
     }
+
+    public int updateTemplatePlanStatus(ClientPlan clientPlan) {
+        return templatePlanMapper.updateTemplatePlanStatus(clientPlan);
+    }
 }

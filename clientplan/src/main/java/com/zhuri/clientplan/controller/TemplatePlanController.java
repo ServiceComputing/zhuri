@@ -40,7 +40,7 @@ public class TemplatePlanController {
 
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication() .getPrincipal();
         clientPlan.setCreator_id(userDetails.getId());
-        clientPlan.setStatus("Active");
+        // clientPlan.setStatus("Active");
         return templatePlanService.addTemplatePlan(clientPlan);
     }
 
@@ -52,5 +52,10 @@ public class TemplatePlanController {
     @RequestMapping(value = "/updateTemplatePlanTasksAndLinks", method = RequestMethod.POST)
     public int updateTemplatePlanTasksAndLinks(ClientPlan clientPlan) {
         return templatePlanService.updateTemplatePlanTasksAndLinks(clientPlan);
+    }
+
+    @RequestMapping(value = "/updateTemplatePlanStatus", method = RequestMethod.POST)
+    public int updateTemplatePlanStatus(ClientPlan clientPlan) {
+        return templatePlanService.updateTemplatePlanStatus(clientPlan);
     }
 }

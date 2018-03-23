@@ -70,6 +70,7 @@ function reset_Gantt_sizes ()
 
 function init_Gantt (gantt_data)
 {
+    gantt.config.xml_date = "%d-%m-%Y";
     gantt.config.scale_unit = "month";
     gantt.config.date_scale = "%F, %Y";
     gantt.config.scale_height = 50;
@@ -172,14 +173,16 @@ $("#btnNext").click(function ()
     $("#basicInfo").hide();
     $("#editPlan").show();
     reset_Gantt_sizes();
+    save_user = 1;
 });
 
 $("#btnSave").click(function ()
 {
-    if (save_user == 1) return;
+    if (save_user == 0) return;
     if (id != 'empty') {
         var formDataTasks = new FormData();
         var formDataText = new FormData();
+        var formDataStatus = new FormData();
         var demo_tasks = gantt.serialize();
 
         formDataTasks.append("createDate", moment().format("x"));
@@ -189,6 +192,8 @@ $("#btnSave").click(function ()
 
         formDataText.append("text", text);
         formDataText.append("id", id[1]);
+
+        formDataStatus.append("id", id[1]);
         $.ajax(
             {
                 type: "POST",
@@ -206,8 +211,31 @@ $("#btnSave").click(function ()
                                 contentType: false,
                                 processData: false,
                                 success: function (data) {
-                                    alert("Success!");
-                                    redirectLinks("/checkPlan");
+                                    var status_text = $("#sel-status").val();
+                                    formDataStatus.append("status", status_text);
+                                    if (status_text != 'none') {
+                                        $.ajax(
+                                            {
+                                                type: "POST",
+                                                url: "/updateClientPlanStatus",
+                                                data: formDataStatus,
+                                                contentType: false,
+                                                processData: false,
+                                                success: function (data) {
+                                                    alert("Success!");
+                                                    redirectLinks("/checkPlan");
+                                                },
+                                                error: function (data) {
+                                                    console.log("Error in Updating Status");
+                                                    alert("Error in Modifying!");
+                                                }
+                                            }
+                                        )
+                                    }
+                                    else {
+                                        alert("Success!");
+                                        redirectLinks("/checkPlan");
+                                    }
                                 },
                                 error: function (data) {
                                     console.log("Error in Updating Text");
@@ -230,12 +258,15 @@ $("#btnSave").click(function ()
     }
     else {
         var formData = new FormData();
+        var status_text = $("#sel-status").val();
         var demo_tasks = gantt.serialize();
         formData.append("text", text);
         formData.append("createDate", moment().format("x"));
         formData.append("data", JSON.stringify(demo_tasks["data"]));
         formData.append("links", JSON.stringify(demo_tasks["links"]));
         formData.append("partner_id", $("#sel-partner").val());
+        if (status_text != 'none')
+            formData.append("status", status_text);
         $.ajax(
             {
                 type: "POST",

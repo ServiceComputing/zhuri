@@ -36,7 +36,25 @@ function main ()
                 "targets": 1,
                 "render": function (data, type, row)
                 {
-                    return '<td><span class="badge badge-success">' + data + '</span></td>';
+                    var htmlContent = '';
+                    console.log(data);
+                    switch (data) {
+                        case 'Active':
+                            htmlContent = '<td><span class="badge badge-success">' + 'Active' + '</span></td>';
+                            break;
+                        case 'Finished':
+                            htmlContent = '<td><span class="badge badge-primary">' + 'Finished' + '</span></td>';
+                            break;
+                        case 'Stopped':
+                            htmlContent = '<td><span class="badge badge-danger">' + 'Stopped' + '</span></td>';
+                            break;
+                        case 'Pending':
+                            htmlContent = '<td><span class="badge badge-warning">' + 'Pending' + '</span></td>';
+                            break;
+                        default:
+                            break;
+                    };
+                    return htmlContent;
                 }
             },
             {
@@ -75,7 +93,25 @@ function main ()
             {
                 "targets": 1,
                 "render": function (data, type, row) {
-                    return '<td><span class="badge badge-success">' + data + '</span></td>';
+                    var htmlContent = '';
+                    console.log(data);
+                    switch (data) {
+                        case 'Active':
+                            htmlContent = '<td><span class="badge badge-success">' + 'Active' + '</span></td>';
+                            break;
+                        case 'Finished':
+                            htmlContent = '<td><span class="badge badge-primary">' + 'Finished' + '</span></td>';
+                            break;
+                        case 'Stopped':
+                            htmlContent = '<td><span class="badge badge-danger">' + 'Stopped' + '</span></td>';
+                            break;
+                        case 'Pending':
+                            htmlContent = '<td><span class="badge badge-warning">' + 'Pending' + '</span></td>';
+                            break;
+                        default:
+                            break;
+                    };
+                    return htmlContent;
                 }
             },
             {

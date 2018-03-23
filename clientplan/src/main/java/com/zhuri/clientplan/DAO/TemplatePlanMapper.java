@@ -32,4 +32,7 @@ public interface TemplatePlanMapper {
 
     @Update("UPDATE template_plan SET data=#{data}, links=#{links} WHERE id=#{id}")
     int updateTemplatePlanTasksAndLinks(ClientPlan clientPlan);
+
+    @Update("UPDATE template_plan SET status=#{status} WHERE id=#{id}")
+    int updateTemplatePlanStatus(ClientPlan clientPlan);
 }

@@ -105,7 +105,25 @@ function templateTableInit ()
             {
                 "targets": 2,
                 "render": function (data, type, row) {
-                    return '<td><span class="badge badge-success">' + data + '</span></td>';
+                    var htmlContent = '';
+                    console.log(data);
+                    switch (data) {
+                        case 'Active':
+                            htmlContent = '<td><span class="badge badge-success">' + 'Active' + '</span></td>';
+                            break;
+                        case 'Finished':
+                            htmlContent = '<td><span class="badge badge-primary">' + 'Finished' + '</span></td>';
+                            break;
+                        case 'Stopped':
+                            htmlContent = '<td><span class="badge badge-danger">' + 'Stopped' + '</span></td>';
+                            break;
+                        case 'Pending':
+                            htmlContent = '<td><span class="badge badge-warning">' + 'Pending' + '</span></td>';
+                            break;
+                        default:
+                            break;
+                    };
+                    return htmlContent;
                 }
             }
         ]
@@ -115,6 +133,7 @@ function templateTableInit ()
 
 function init_Gantt (gantt_data)
 {
+    gantt.config.xml_date = "%d-%m-%Y";
     gantt.config.scale_unit = "month";
     gantt.config.date_scale = "%F, %Y";
     gantt.config.scale_height = 50;
@@ -235,9 +254,8 @@ function main ()
 
 $("#btnNext").click(function ()
 {
+    save_user = 1;
     text = $("#nf-text").val();
-    console.log("text = ");
-    console.log(text);
     if ((id == 'empty') && templateTable.rows({selected: true}).count() != 0)
     {
         var selected_id = templateTable.rows({selected: true}).data()[0]["id"];
@@ -270,15 +288,15 @@ $("#btnNext").click(function ()
         $("#editPlan").show();
         reset_Gantt_sizes();
     }
-    
 });
 
 $("#btnSave").click(function ()
 {
-    if (save_user == 1) return;
+    if (save_user == 0) return;
     if (id != 'empty') {
         var formDataTasks = new FormData();
         var formDataText = new FormData();
+        var formDataStatus = new FormData();
         var demo_tasks = gantt.serialize();
 
         formDataTasks.append("createDate", moment().format("x"));
@@ -288,6 +306,8 @@ $("#btnSave").click(function ()
 
         formDataText.append("text", text);
         formDataText.append("id", id[1]);
+
+        formDataStatus.append("id", id[1]);
         $.ajax(
             {
                 type: "POST",
@@ -307,8 +327,35 @@ $("#btnSave").click(function ()
                                 processData: false,
                                 success: function (data) 
                                 {
-                                    alert("Success!");
-                                    redirectLinks("/checkPlan");
+                                    var status_text = $("#sel-status").val();
+                                    formDataStatus.append("status", status_text);
+                                    if (status_text != 'none')
+                                    {
+                                        $.ajax(
+                                            {
+                                                type: "POST",
+                                                url: "/updateClientPlanStatus",
+                                                data: formDataStatus,
+                                                contentType: false,
+                                                processData: false,
+                                                success: function (data)
+                                                {
+                                                    alert("Success!");
+                                                    redirectLinks("/checkPlan");
+                                                },
+                                                error: function (data)
+                                                {
+                                                    console.log("Error in Updating Status");
+                                                    alert("Error in Modifying!");
+                                                }
+                                            }
+                                        )
+                                    }
+                                    else
+                                    {
+                                        alert("Success!");
+                                        redirectLinks("/checkPlan");
+                                    }
                                 },
                                 error: function (data)
                                 {
@@ -335,15 +382,20 @@ $("#btnSave").click(function ()
     else {
         var formData = new FormData();
         var demo_tasks = gantt.serialize();
+        var status_text = $("#sel-status").val();
         if (text != '') formData.append("text", text);
         formData.append("createDate", moment().format("x"));
         formData.append("data", JSON.stringify(demo_tasks["data"]));
         formData.append("links", JSON.stringify(demo_tasks["links"]));
         formData.append("partner_id", $("#sel-partner").val());
+        if (status != 'none')
+            formData.append("status", status_text);
+        else
+            formData.append("status", "Active");
         $.ajax(
             {
                 type: "POST",
-                url: "/addTemplatePlan",
+                url: "/addClientPlan",
                 data: formData,
                 contentType: false,
                 processData: false,

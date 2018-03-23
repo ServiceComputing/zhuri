@@ -38,4 +38,7 @@ public interface ClientPlanMapper {
 
     @Update("UPDATE client_plan SET data=#{data}, links=#{links} WHERE id=#{id}")
     int updateClientPlanTasksAndLinks(ClientPlan clientPlan);
+
+    @Update("UPDATE client_plan SET status=#{status} WHERE id=#{id}")
+    int updateClientPlanStatus(ClientPlan clientPlan);
 }
