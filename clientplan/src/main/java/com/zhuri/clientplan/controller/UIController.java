@@ -15,4 +15,7 @@ public class UIController {
 
     @RequestMapping(value = "/planModify", method = RequestMethod.GET)
     public String planModify () { return "planModify"; }
+
+    @RequestMapping(value = "/templateModify", method = RequestMethod.GET)
+    public String templateModify () { return "templateModify"; }
 }

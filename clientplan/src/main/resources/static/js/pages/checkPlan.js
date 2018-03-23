@@ -1,15 +1,15 @@
 function redirectModifyPlanSubmitted (id)
 {
     add_cookie("id", id);
-    add_cookie("type", "submitted");
+    // add_cookie("type", "submitted");
     window.location.href = "/planModify";
 }
 
 function redirectModifyPlanTemplate(id) 
 {
     add_cookie("id", id);
-    add_cookie("type", "template");
-    window.location.href = "/planModify";
+    // add_cookie("type", "template");
+    window.location.href = "/templateModify";
 }
 
 function main ()

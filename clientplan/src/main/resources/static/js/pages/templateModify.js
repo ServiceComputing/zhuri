@@ -68,51 +68,6 @@ function reset_Gantt_sizes ()
     gantt.setSizes();
 }
 
-function templateTableInit ()
-{
-    $("#checkPlanDataTemplate").dataTable({
-        "searching": false,
-        "aLengthMenu": [10, 20, 25, 50],
-        "serverSide": true,
-        "processing": true,
-        "ajax": {
-            "url": "/getTemplatePlansByUserId",
-            "type": "GET",
-            // "data": { "pageNum": 1, "pageSize": 100 },
-            "dataType": "json",
-            // "dataSrc": "rows"
-        },
-        "columns": [
-            { "data": "id" },
-            { "data": "id" },
-            { "data": "status" },
-            { "data": "text" },
-        ],
-        select: {
-            info: false,
-            style: 'single',
-            selector: 'td:first-child'
-        },
-        "columnDefs": [
-            {
-                orderable: false,
-                className: 'select-checkbox',
-                targets: 0,
-                render: function (data, type, row) {
-                    return null;
-                }
-            },
-            {
-                "targets": 2,
-                "render": function (data, type, row) {
-                    return '<td><span class="badge badge-success">' + data + '</span></td>';
-                }
-            }
-        ]
-    });
-    templateTable = $("#checkPlanDataTemplate").DataTable()
-}
-
 function init_Gantt (gantt_data)
 {
     gantt.config.scale_unit = "month";
@@ -144,41 +99,20 @@ function main ()
     {
         $("#sel-part-form").hide();
         delete_cookie("id");
-        type = find_cookie("type");
-        // sidebar in commonSettings
-        $("#planModify_sidebar").html('<i class="icon-drop"></i>Modify Plan');
-        $("#planModify_breadcrumb").html("Modify Plan");
+        $("#templateModify_sidebar").html('<i class="icon-drop"></i>Modify Template');
+        $("#templateModify_breadcrumb").html("Modify Template");
         $.ajax(
             {
                 type: "GET",
-                url: "/getClientPlansByClientPlanId",
-                data: { "clientPlanId": id[1] },
+                url: "/getTemplatePlansByTemplatePlanId",
+                data: { "templatePlanId": id[1] },
                 success: function (receive_data) {
-                    // console.log(receive_data);
                     var gantt_data = {};
                     gantt_data["links"] = JSON.parse(receive_data["links"]);
                     gantt_data["data"] = JSON.parse(receive_data["data"]);
-                    // console.log(gantt_data);
-                    $.ajax(
-                        {
-                            type: "GET",
-                            url: "/getCurrentUser",
-                            success: function (data) 
-                            {
-                                console.log(data);
-                                if (data["authorities"][0]["authority"] != "ROLE_MANAGER") 
-                                {
-                                    gantt.config.readonly = true;
-                                    $("#basicInfo").hide();
-                                    $("#editPlan").show();
-                                    save_user = 1;
-                                }
-                                init_Gantt(gantt_data);
-                            }
-                        }
-                    );
-                    $("#checkPlanDataTemplateDiv").hide();
-                    init_Gantt(gantt_data);
+                    init_Gantt(demo_tasks);
+                    gantt.clearAll();
+                    gantt.parse(gantt_data);
                 }
             }
         );
@@ -186,7 +120,6 @@ function main ()
     else
     {
         $("#sel-part-form").show();
-        templateTableInit();
         $.ajax(
             {
                 type: "GET",
@@ -236,41 +169,9 @@ function main ()
 $("#btnNext").click(function ()
 {
     text = $("#nf-text").val();
-    console.log("text = ");
-    console.log(text);
-    if ((id == 'empty') && templateTable.rows({selected: true}).count() != 0)
-    {
-        var selected_id = templateTable.rows({selected: true}).data()[0]["id"];
-        console.log(templateTable.rows({ selected: true }).data());
-        $.ajax(
-            {
-                type: "GET",
-                url: "/getTemplatePlansByTemplatePlanId",
-                data: { "templatePlanId": selected_id },
-                success: function (data) {
-                    console.log(data);
-                    var template_gantt = {};
-                    template_gantt["data"] = JSON.parse(data["data"]);
-                    template_gantt["links"] = JSON.parse(data["links"]);
-                    gantt.parse(template_gantt);
-                    $("#basicInfo").hide();
-                    $("#editPlan").show();
-                    reset_Gantt_sizes();
-                },
-                error: function (data) {
-                    console.log("Error in Reading Template!");
-                    alert("Error in Loading Template!");
-                }
-            }
-        );
-    }
-    else
-    {
-        $("#basicInfo").hide();
-        $("#editPlan").show();
-        reset_Gantt_sizes();
-    }
-    
+    $("#basicInfo").hide();
+    $("#editPlan").show();
+    reset_Gantt_sizes();
 });
 
 $("#btnSave").click(function ()
@@ -291,42 +192,37 @@ $("#btnSave").click(function ()
         $.ajax(
             {
                 type: "POST",
-                url: "/updateClientPlanTasksAndLinks",
-                data: formDataTasks,
+                url: "/updateTemplatePlanTasksAndLinks",
+                data: formData,
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    if (text != '')
-                    {
+                    if (text != '') {
                         $.ajax(
                             {
                                 type: "POST",
-                                url: "/updateClientPlanText",
+                                url: "/updateTemplatePlanText",
                                 data: formDataText,
                                 contentType: false,
                                 processData: false,
-                                success: function (data) 
-                                {
+                                success: function (data) {
                                     alert("Success!");
                                     redirectLinks("/checkPlan");
                                 },
-                                error: function (data)
-                                {
+                                error: function (data) {
                                     console.log("Error in Updating Text");
                                     alert("Error in Modifying!");
                                 }
                             }
                         );
                     }
-                    else
-                    {
+                    else {
                         console.log("Nothing in text, success");
                         alert("Success!");
                         redirectLinks("/checkPlan");
                     }
                 },
                 error: function (data) {
-                    console.log("Error in Updating Tasks and Links");
                     alert("Error in modifying!");
                 }
             }
@@ -335,7 +231,7 @@ $("#btnSave").click(function ()
     else {
         var formData = new FormData();
         var demo_tasks = gantt.serialize();
-        if (text != '') formData.append("text", text);
+        formData.append("text", text);
         formData.append("createDate", moment().format("x"));
         formData.append("data", JSON.stringify(demo_tasks["data"]));
         formData.append("links", JSON.stringify(demo_tasks["links"]));
@@ -348,12 +244,10 @@ $("#btnSave").click(function ()
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    console.log("Success Add Plan");
                     alert("Success!");
                     redirectLinks("/checkPlan");
                 },
                 error: function (data) {
-                    console.log("Error in Add Plan");
                     alert("Error in creating!");
                 }
             }

@@ -14,6 +14,10 @@ function modifySidebar ()
                 <a href="/planModify" class="nav-link" id="planModify_sidebar">\
                     <i class="icon-drop"></i>Create Plan</a>\
             </li>\
+            <li class="nav-item">\
+                <a href="/templateModify" class="nav-link" id="templateModify_sidebar">\
+                    <i class="icon-drop"></i>Create Template</a>\
+            </li>\
         </ul>';
     $(".sidebar-nav").html(sidebarContent);
 }
@@ -37,3 +41,16 @@ function modifyFooter ()
 modifySidebar();
 modifyNavbar();
 modifyFooter();
+
+function redirectLinks (links)
+{
+    var isSafari = ua.indexOf("Safari") != -1 && ua.indexOf("Version") != -1;
+    if (isSafari)
+    {
+        location = links;
+    }
+    else
+    {
+        window.location.href = links;
+    }
+}
