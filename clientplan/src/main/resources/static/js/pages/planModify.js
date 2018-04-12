@@ -159,6 +159,13 @@ function main ()
     $("#basicInfo").show();
     $("#editPlan").hide();
 
+    /* 
+        ! 逻辑说明
+        修改模板
+        允许管理员修改
+        不允许客户修改
+        id由checkPlan页面传过来
+     */
     if (id != 'empty')
     {
         $("#sel-part-form").hide();
@@ -366,9 +373,33 @@ $("#btnSave").click(function ()
                     }
                     else
                     {
-                        console.log("Nothing in text, success");
-                        alert("Success!");
-                        redirectLinks("/checkPlan");
+                        var status_text = $("#sel-status").val();
+                        formDataStatus.append("status", status_text);
+                        if (status_text != 'none') {
+                            $.ajax(
+                                {
+                                    type: "POST",
+                                    url: "/updateClientPlanStatus",
+                                    data: formDataStatus,
+                                    contentType: false,
+                                    processData: false,
+                                    success: function (data) {
+                                        alert("Success!");
+                                        redirectLinks("/checkPlan");
+                                    },
+                                    error: function (data) {
+                                        console.log("Error in Updating Status");
+                                        alert("Error in Modifying!");
+                                    }
+                                }
+                            )
+                        } 
+                        else
+                        {
+                            console.log("Nothing in text, success");
+                            alert("Success!");
+                            redirectLinks("/checkPlan");
+                        }
                     }
                 },
                 error: function (data) {

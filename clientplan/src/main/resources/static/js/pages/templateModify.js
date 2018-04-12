@@ -1,3 +1,4 @@
+//? 用于填充gantt大小的数据
 var demo_tasks = {
     "data": [
         { "id": 11, "text": "Project #1", "start_date": "28-03-2013", "duration": "11", "progress": 0.6, "open": true },
@@ -90,12 +91,20 @@ function init_Gantt (gantt_data)
     reset_Gantt_sizes();
 }
 
+//* 主函数
 function main ()
 {
     id = find_cookie("id");
     $("#basicInfo").show();
     $("#editPlan").hide();
 
+    /* 
+        ! 逻辑说明
+        修改模板
+        允许管理员修改
+        允许客户修改
+        id由checkPlan页面传过来
+     */
     if (id != 'empty')
     {
         $("#sel-part-form").hide();
@@ -107,7 +116,8 @@ function main ()
                 type: "GET",
                 url: "/getTemplatePlansByTemplatePlanId",
                 data: { "templatePlanId": id[1] },
-                success: function (receive_data) {
+                success: function (receive_data) 
+                {
                     var gantt_data = {};
                     gantt_data["links"] = JSON.parse(receive_data["links"]);
                     gantt_data["data"] = JSON.parse(receive_data["data"]);
@@ -213,11 +223,12 @@ $("#btnSave").click(function ()
                                 success: function (data) {
                                     var status_text = $("#sel-status").val();
                                     formDataStatus.append("status", status_text);
+                                    console.log("Adding Status!");
                                     if (status_text != 'none') {
                                         $.ajax(
                                             {
                                                 type: "POST",
-                                                url: "/updateClientPlanStatus",
+                                                url: "/updateTemplatePlanStatus",
                                                 data: formDataStatus,
                                                 contentType: false,
                                                 processData: false,
@@ -232,7 +243,8 @@ $("#btnSave").click(function ()
                                             }
                                         )
                                     }
-                                    else {
+                                    else 
+                                    {
                                         alert("Success!");
                                         redirectLinks("/checkPlan");
                                     }
@@ -245,9 +257,34 @@ $("#btnSave").click(function ()
                         );
                     }
                     else {
-                        console.log("Nothing in text, success");
-                        alert("Success!");
-                        redirectLinks("/checkPlan");
+                        var status_text = $("#sel-status").val();
+                        formDataStatus.append("status", status_text);
+                        if (status_text != 'none') {
+                            $.ajax(
+                                {
+                                    type: "POST",
+                                    url: "/updateTemplatePlanStatus",
+                                    data: formDataStatus,
+                                    contentType: false,
+                                    processData: false,
+                                    success: function (data) {
+                                        alert("Success!");
+                                        redirectLinks("/checkPlan");
+                                    },
+                                    error: function (data) {
+                                        console.log("Error in Updating Status");
+                                        alert("Error in Modifying!");
+                                    }
+                                }
+                            )
+                        }
+                        else 
+                        {
+                            console.log("Nothing in text, success");
+                            alert("Success!");
+                            redirectLinks("/checkPlan");
+                        }
+                        
                     }
                 },
                 error: function (data) {
