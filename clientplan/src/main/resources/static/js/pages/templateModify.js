@@ -208,7 +208,7 @@ $("#btnSave").click(function ()
             {
                 type: "POST",
                 url: "/updateTemplatePlanTasksAndLinks",
-                data: formData,
+                data: formDataTasks,
                 contentType: false,
                 processData: false,
                 success: function (data) {

@@ -184,7 +184,7 @@ function main ()
                     var gantt_data = {};
                     gantt_data["links"] = JSON.parse(receive_data["links"]);
                     gantt_data["data"] = JSON.parse(receive_data["data"]);
-                    // console.log(gantt_data);
+                    console.log(gantt_data);
                     $.ajax(
                         {
                             type: "GET",
@@ -199,7 +199,6 @@ function main ()
                                     $("#editPlan").show();
                                     save_user = 1;
                                 }
-                                init_Gantt(gantt_data);
                             }
                         }
                     );
@@ -300,7 +299,7 @@ $("#btnSave").click(function ()
 {
     if (save_user == 1) return;
     if (id != 'empty') {
-        var formDataTasks = new FormDsata();
+        var formDataTasks = new FormData();
         var formDataText = new FormData();
         var formDataStatus = new FormData();
         var demo_tasks = gantt.serialize();
