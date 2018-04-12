@@ -254,7 +254,6 @@ function main ()
 
 $("#btnNext").click(function ()
 {
-    save_user = 1;
     text = $("#nf-text").val();
     if ((id == 'empty') && templateTable.rows({selected: true}).count() != 0)
     {
@@ -292,9 +291,9 @@ $("#btnNext").click(function ()
 
 $("#btnSave").click(function ()
 {
-    if (save_user == 0) return;
+    if (save_user == 1) return;
     if (id != 'empty') {
-        var formDataTasks = new FormData();
+        var formDataTasks = new FormDsata();
         var formDataText = new FormData();
         var formDataStatus = new FormData();
         var demo_tasks = gantt.serialize();
