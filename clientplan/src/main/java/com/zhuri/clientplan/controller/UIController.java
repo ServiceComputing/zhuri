@@ -18,4 +18,9 @@ public class UIController {
 
     @RequestMapping(value = "/templateModify", method = RequestMethod.GET)
     public String templateModify () { return "templateModify"; }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String index() {
+        return "checkPlan";
+    }
 }
